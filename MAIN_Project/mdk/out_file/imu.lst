@@ -1,0 +1,224 @@
+C251 COMPILER V5.60.0,  imu                                                                15/01/25  18:28:02  PAGE 1   
+
+
+C251 COMPILER V5.60.0, COMPILATION OF MODULE imu
+OBJECT MODULE PLACED IN .\out_file\imu.obj
+COMPILER INVOKED BY: E:\Keil_v5\C251\BIN\C251.EXE ..\code\imu.c LARGE NOALIAS FLOAT64 WARNINGLEVEL(3) OPTIMIZE(SIZE) BRO
+                    -WSE INCDIR(..\..\libraries\zf_common;..\..\libraries\zf_components;..\..\libraries\zf_device;..\..\libraries\zf_driver;.
+                    -.\user;..\code) DEBUG PRINT(.\out_file\imu.lst) TABS(2) OBJECT(.\out_file\imu.obj) 
+
+stmt  level    source
+
+    1          /*
+    2           * imu.c
+    3           *
+    4           *  Created on: 2022年12月16日
+    5           *      Author: paper
+    6           */
+    7          
+    8          #include "imu.h"
+    9          #include "math.h"
+   10          #define delta_T 0.002f // 2ms计算一次
+   11          #define alpha 0.3f
+   12          #define M_PI 3.1415926f
+   13          
+   14          float GyroOffset_Xdata = 0, icm_data_acc_x = 0, icm_data_gyro_x = 0;
+   15          float GyroOffset_Ydata = 0, icm_data_acc_y = 0, icm_data_gyro_y = 0;
+   16          float GyroOffset_Zdata = 0, icm_data_acc_z = 0, icm_data_gyro_z = 0;
+   17          float Q_info_q0 = 1, Q_info_q1 = 0, Q_info_q2 = 0, Q_info_q3 = 0;
+   18          float param_Kp = 0.17;  // 加速度计的收敛速率比例增益
+   19          float param_Ki = 0.004; // 陀螺仪收敛速率的积分增益 0.004
+   20          float eulerAngle_yaw = 0, eulerAngle_pitch = 0, eulerAngle_roll = 0, eulerAngle_yaw_total = 0, eulerAngle
+             -_yaw_old = 0;
+   21          
+   22          //const float integral_saturation_limit = 0.01; // 可以根据实际情况调整这个阈值
+   23          
+   24          float delta_2;
+   25          
+   26          
+   27          float I_ex, I_ey, I_ez; // 误差积分
+   28          float test = 1;
+   29          float test1 = 1;
+   30          float test2 = 1;
+   31          float test3 = 1;
+   32          float fast_sqrt(float num) {
+   33   1          float halfx = 0.5f * num;
+   34   1          float y = num;
+   35   1          long i = *(long*)&y;
+   36   1          i = 0x5f375a86 - (i >> 1);
+   37   1      
+   38   1          y = *(float*)&i;
+   39   1          y = y * (1.5f - (halfx * y * y));
+   40   1          y = y * (1.5f - (halfx * y * y));
+   41   1          return y;
+   42   1          // float y = sqrtf(num);
+   43   1          // return y;
+   44   1      }
+   45          
+   46          void gyroOffset_init(void) { /////////陀螺仪零飘初始化
+   47   1      //    GyroOffset_Xdata = 0;
+   48   1      //    GyroOffset_Ydata = 0;
+   49   1      //    GyroOffset_Zdata = 0;
+   50   1      //     for (uint16_t i = 0; i < 5000; i++) {
+   51   1      //         imu660ra_get_gyro();
+   52   1      //         GyroOffset_Xdata += imu660ra_gyro_x;
+   53   1      //         GyroOffset_Ydata += imu660ra_gyro_y;
+   54   1      //         GyroOffset_Zdata += imu660ra_gyro_z;
+   55   1      //         system_delay_ms(5);
+   56   1      //     }
+C251 COMPILER V5.60.0,  imu                                                                15/01/25  18:28:02  PAGE 2   
+
+   57   1      //     GyroOffset_Xdata /= 5000;
+   58   1      //     GyroOffset_Ydata /= 5000;
+   59   1      //     GyroOffset_Zdata /= 5000;
+   60   1      //     ips200_show_float(  0 , 16*14,  GyroOffset_Xdata,     4, 6);
+   61   1      //     ips200_show_float(  0 , 16*15,  GyroOffset_Ydata,     4, 6);
+   62   1      //     ips200_show_float(  0 , 16*16,  GyroOffset_Zdata,     4, 6);
+   63   1      //     while(1);
+   64   1      
+   65   1      
+   66   1      
+   67   1                GyroOffset_Xdata = -2.866;//-2.866
+   68   1                GyroOffset_Ydata = 5.638199;//5.638199
+   69   1                GyroOffset_Zdata = -3.26999;//-3.26999
+   70   1      
+   71   1                //-2.553200,-2.4142,,,-2.050600,-2.290600,-1.97,-2.402199
+   72   1                //6.397200,6.64300,,,5.822199,5.691999,5.706399,5.743999
+   73   1                //-3.524199,-3.42300,,,-3.254199,-3.28800,-4.270599,-4.237400
+   74   1           }
+   75          
+   76          // 转化为实际物理值
+   77          void ICM_getValues() {
+   78   1          // 一阶低通滤波，单位g/s
+   79   1          icm_data_acc_x = (((float)imu660ra_acc_x) * alpha) + icm_data_acc_x * (1 - alpha);
+   80   1          icm_data_acc_y = (((float)imu660ra_acc_y) * alpha) + icm_data_acc_y * (1 - alpha);
+   81   1          icm_data_acc_z = (((float)imu660ra_acc_z) * alpha) + icm_data_acc_z * (1 - alpha);
+   82   1          // 陀螺仪角速度转弧度
+   83   1          icm_data_gyro_x = ((float)imu660ra_gyro_x - GyroOffset_Xdata) * M_PI / 180 / 16.4f;
+   84   1          icm_data_gyro_y = ((float)imu660ra_gyro_y - GyroOffset_Ydata) * M_PI / 180 / 16.4f;
+   85   1          icm_data_gyro_z = ((float)imu660ra_gyro_z - GyroOffset_Zdata) * M_PI / 180 / 16.4f;
+   86   1      
+   87   1      }
+   88          
+   89          // 互补滤波
+   90          void ICM_AHRSupdate(float gx, float gy, float gz, float ax, float ay, float az) {
+   91   1          float halfT = 0.5 * delta_T;
+   92   1          float vx, vy, vz; // 当前的机体坐标系上的重力单位向量
+   93   1          float ex, ey, ez; // 四元数计算值与加速度计测量值的误差
+   94   1          float q0 = Q_info_q0;
+   95   1          float q1 = Q_info_q1;
+   96   1          float q2 = Q_info_q2;
+   97   1          float q3 = Q_info_q3;
+   98   1          float q0q0 = q0 * q0;
+   99   1          float q0q1 = q0 * q1;
+  100   1          float q0q2 = q0 * q2;
+  101   1          //float q0q3 = q0 * q3;
+  102   1          float q1q1 = q1 * q1;
+  103   1          //float q1q2 = q1 * q2;
+  104   1          float q1q3 = q1 * q3;
+  105   1          float q2q2 = q2 * q2;
+  106   1          float q2q3 = q2 * q3;
+  107   1          float q3q3 = q3 * q3;
+  108   1          // float delta_2 = 0;
+  109   1      
+  110   1          // 对加速度数据进行归一化 得到单位加速度
+  111   1          float norm = fast_sqrt(ax * ax + ay * ay + az * az);
+  112   1      
+  113   1          ax = ax * norm;
+  114   1          ay = ay * norm;
+  115   1          az = az * norm;
+  116   1      
+  117   1          // 根据当前四元数的姿态值来估算出各重力分量。用于和加速计实际测量出来的各重力分量进行对比，从而实现对
+             -四轴姿态的修正
+  118   1          vx = 2 * (q1q3 - q0q2);
+  119   1          vy = 2 * (q0q1 + q2q3);
+  120   1          vz = q0q0 - q1q1 - q2q2 + q3q3;
+  121   1          // vz = (q0*q0-0.5f+q3 * q3) * 2;
+C251 COMPILER V5.60.0,  imu                                                                15/01/25  18:28:02  PAGE 3   
+
+  122   1      
+  123   1          // 叉积来计算估算的重力和实际测量的重力这两个重力向量之间的误差。
+  124   1          ex = ay * vz - az * vy;
+  125   1          ey = az * vx - ax * vz;
+  126   1          ez = ax * vy - ay * vx;
+  127   1      
+  128   1          // 用叉乘误差来做PI修正陀螺零偏，
+  129   1          // 通过调节 param_Kp，param_Ki 两个参数，
+  130   1          // 可以控制加速度计修正陀螺仪积分姿态的速度。
+  131   1          I_ex += halfT * ex; // integral error scaled by Ki
+  132   1          I_ey += halfT * ey;
+  133   1          I_ez += halfT * ez;
+  134   1      
+  135   1          gx = gx + param_Kp * ex + param_Ki * I_ex;
+  136   1          gy = gy + param_Kp * ey + param_Ki * I_ey;
+  137   1          gz = gz + param_Kp * ez + param_Ki * I_ez;
+  138   1      
+  139   1          /*数据修正完成，下面是四元数微分方程*/
+  140   1      
+  141   1          // 四元数微分方程，其中halfT为测量周期的1/2，gx gy gz为陀螺仪角速度，以下都是已知量，这里使用了一阶龙
+             -哥库塔求解四元数微分方程
+  142   1              q0 = q0 + (-q1 * gx - q2 * gy - q3 * gz) * halfT;
+  143   1              q1 = q1 + (q0 * gx + q2 * gz - q3 * gy) * halfT;
+  144   1              q2 = q2 + (q0 * gy - q1 * gz + q3 * gx) * halfT;
+  145   1              q3 = q3 + (q0 * gz + q1 * gy - q2 * gx) * halfT;
+  146   1      
+  147   1      //        delta_2=(2*halfT*gx)*(2*halfT*gx)+(2*halfT*gy)*(2*halfT*gy)+(2*halfT*gz)*(2*halfT*gz);
+  148   1      //        整合四元数率    四元数微分方程  四元数更新算法，二阶毕卡法
+  149   1      //        q0 = (1-delta_2/8)*q0 + (-q1*gx - q2*gy - q3*gz)*halfT;
+  150   1      //        q1 = (1-delta_2/8)*q1 + (q0*gx + q2*gz - q3*gy)*halfT;
+  151   1      //        q2 = (1-delta_2/8)*q2 + (q0*gy - q1*gz + q3*gx)*halfT;
+  152   1      //        q3 = (1-delta_2/8)*q3 + (q0*gz + q1*gy - q2*gx)*halfT;
+  153   1      
+  154   1          // normalise quaternion
+  155   1          norm = fast_sqrt(q0 * q0 + q1 * q1 + q2 * q2 + q3 * q3);
+  156   1          Q_info_q0 = q0 * norm;
+  157   1          Q_info_q1 = q1 * norm;
+  158   1          Q_info_q2 = q2 * norm;
+  159   1          Q_info_q3 = q3 * norm;
+  160   1      
+  161   1      }
+  162          
+  163          // 获取车辆姿态
+  164          void ICM_getEulerianAngles(void) {
+  165   1          // 采集陀螺仪数据
+  166   1          imu660ra_get_gyro();
+  167   1          imu660ra_get_acc();
+  168   1          imu660ra_acc_x = imu660ra_acc_transition(imu660ra_acc_x);
+  169   1          imu660ra_acc_y = imu660ra_acc_transition(imu660ra_acc_y);
+  170   1          imu660ra_acc_z = imu660ra_acc_transition(imu660ra_acc_z);
+  171   1          ICM_getValues();
+  172   1          ICM_AHRSupdate(icm_data_gyro_x, icm_data_gyro_y, icm_data_gyro_z, icm_data_acc_x, icm_data_acc_y, icm
+             -_data_acc_z);
+  173   1          float q0 = Q_info_q0;
+*** ERROR C25 IN LINE 173 OF ..\code\imu.c: syntax error near 'float'
+  174   1          float q1 = Q_info_q1;
+  175   1          float q2 = Q_info_q2;
+  176   1          float q3 = Q_info_q3;
+  177   1          // 四元数计算欧拉角---原始
+  178   1          eulerAngle_roll = -asin(-2 * q1 * q3 + 2 * q0 * q2) * 180 / M_PI;                                  //
+             - pitch
+  179   1          eulerAngle_pitch = -atan2(2 * q2 * q3 + 2 * q0 * q1, -2 * q1 * q1 - 2 * q2 * q2 + 1) * 180 / M_PI; //
+             - roll
+  180   1          eulerAngle_yaw = -atan2(2 * q1 * q2 + 2 * q0 * q3, -2 * q2 * q2 - 2 * q3 * q3 + 1) * 180 / M_PI;   //
+             - yaw
+  181   1      
+C251 COMPILER V5.60.0,  imu                                                                15/01/25  18:28:02  PAGE 4   
+
+  182   1          //因为改结构导致极性全部取反
+  183   1      //    eulerAngle_pitch=-eulerAngle_pitch;
+  184   1      //    eulerAngle_yaw=-eulerAngle_yaw;
+  185   1      //    icm_data_gyro_x=-icm_data_gyro_x;
+  186   1      //    icm_data_gyro_z=-icm_data_gyro_z;
+  187   1          //确定精度
+  188   1      //    eulerAngle_roll=Round(eulerAngle_roll,3);
+  189   1      //    eulerAngle_pitch=Round(eulerAngle_pitch,3);
+  190   1      //    eulerAngle_yaw=Round(eulerAngle_yaw,2);
+  191   1      //
+  192   1      //    icm_data_gyro_x=Round(icm_data_gyro_x,3);
+  193   1      //    icm_data_gyro_y=Round(icm_data_gyro_y,2);
+  194   1      //    icm_data_gyro_z=Round(icm_data_gyro_z,2);
+  195   1      
+  196   1      }
+*** ERROR C25 IN LINE 196 OF ..\code\imu.c: syntax error near '}'
+
+C251 COMPILATION COMPLETE.  0 WARNING(S),  2 ERROR(S)

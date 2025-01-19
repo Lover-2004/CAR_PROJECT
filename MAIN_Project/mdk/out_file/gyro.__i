@@ -1,0 +1,1 @@
+"..\code\gyro.c" LARGE NOALIAS FLOAT64 WARNINGLEVEL (3) OPTIMIZE (SIZE) BROWSE INCDIR(..\..\libraries\zf_common;..\..\libraries\zf_components;..\..\libraries\zf_device;..\..\libraries\zf_driver;..\user;..\code) DEBUG PRINT(.\out_file\gyro.lst) TABS (2) OBJECT(.\out_file\gyro.obj)

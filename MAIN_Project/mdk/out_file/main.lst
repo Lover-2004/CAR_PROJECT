@@ -1,0 +1,194 @@
+C251 COMPILER V5.60.0,  main                                                               16/01/25  23:25:19  PAGE 1   
+
+
+C251 COMPILER V5.60.0, COMPILATION OF MODULE main
+OBJECT MODULE PLACED IN .\out_file\main.obj
+COMPILER INVOKED BY: D:\Keil_v5\C251\BIN\C251.EXE ..\user\main.c LARGE NOALIAS FLOAT64 WARNINGLEVEL(3) OPTIMIZE(SIZE) BR
+                    -OWSE INCDIR(..\..\libraries\zf_common;..\..\libraries\zf_components;..\..\libraries\zf_device;..\..\libraries\zf_driver;
+                    -..\user;..\code) DEBUG PRINT(.\out_file\main.lst) OBJECT(.\out_file\main.obj) 
+
+stmt  level    source
+
+    1          /********************************************************************************************************
+             -*************
+    2          * AI8051U Opensourec Library ¼´£¨AI8051U ¿ªÔ´¿â£©ÊÇÒ»¸ö»ùÓÚ¹Ù·½ SDK ½Ó¿ÚµÄµÚÈý·½¿ªÔ´¿â
+    3          * Copyright (c) 2022 SEEKFREE Öð·É¿Æ¼¼
+    4          *
+    5          * ±¾ÎÄ¼þÊÇSTC ¿ªÔ´¿âµÄÒ»²¿·Ö
+    6          *
+    7          * AI8051U ¿ªÔ´¿â ÊÇÃâ·ÑÈí¼þ
+    8          * Äú¿ÉÒÔ¸ù¾Ý×ÔÓÉÈí¼þ»ù½ð»á·¢²¼µÄ GPL£¨GNU General Public License£¬¼´ GNUÍ¨ÓÃ¹«¹²Ðí¿ÉÖ¤£©µÄÌõ¿î
+    9          * ¼´ GPL µÄµÚ3°æ£¨¼´ GPL3.0£©»ò£¨ÄúÑ¡ÔñµÄ£©ÈÎºÎºóÀ´µÄ°æ±¾£¬ÖØÐÂ·¢²¼ºÍ/»òÐÞ¸ÄËü
+   10          *
+   11          * ±¾¿ªÔ´¿âµÄ·¢²¼ÊÇÏ£ÍûËüÄÜ·¢»Ó×÷ÓÃ£¬µ«²¢Î´¶ÔÆä×÷ÈÎºÎµÄ±£Ö¤
+   12          * ÉõÖÁÃ»ÓÐÒþº¬µÄÊÊÏúÐÔ»òÊÊºÏÌØ¶¨ÓÃÍ¾µÄ±£Ö¤
+   13          * ¸ü¶àÏ¸½ÚÇë²Î¼û GPL
+   14          *
+   15          * ÄúÓ¦¸ÃÔÚÊÕµ½±¾¿ªÔ´¿âµÄÍ¬Ê±ÊÕµ½Ò»·Ý GPL µÄ¸±±¾
+   16          * Èç¹ûÃ»ÓÐ£¬Çë²ÎÔÄ<https://www.gnu.org/licenses/>
+   17          *
+   18          * ¶îÍâ×¢Ã÷£º
+   19          * ±¾¿ªÔ´¿âÊ¹ÓÃ GPL3.0 ¿ªÔ´Ðí¿ÉÖ¤Ð­Òé ÒÔÉÏÐí¿ÉÉêÃ÷ÎªÒëÎÄ°æ±¾
+   20          * Ðí¿ÉÉêÃ÷Ó¢ÎÄ°æÔÚ libraries/doc ÎÄ¼þ¼ÐÏÂµÄ GPL3_permission_statement.txt ÎÄ¼þÖÐ
+   21          * Ðí¿ÉÖ¤¸±±¾ÔÚ libraries ÎÄ¼þ¼ÐÏÂ ¼´¸ÃÎÄ¼þ¼ÐÏÂµÄ LICENSE ÎÄ¼þ
+   22          * »¶Ó­¸÷Î»Ê¹ÓÃ²¢´«²¥±¾³ÌÐò µ«ÐÞ¸ÄÄÚÈÝÊ±±ØÐë±£ÁôÖð·É¿Æ¼¼µÄ°æÈ¨ÉùÃ÷£¨¼´±¾ÉùÃ÷£©
+   23          *
+   24          * ÎÄ¼þÃû³Æ          
+   25          * ¹«Ë¾Ãû³Æ          ³É¶¼Öð·É¿Æ¼¼ÓÐÏÞ¹«Ë¾
+   26          * °æ±¾ÐÅÏ¢          ²é¿´ libraries/doc ÎÄ¼þ¼ÐÄÚ version ÎÄ¼þ °æ±¾ËµÃ÷
+   27          * ¿ª·¢»·¾³          MDK FOR C251
+   28          * ÊÊÓÃÆ½Ì¨          AI8051U
+   29          * µêÆÌÁ´½Ó          https://seekfree.taobao.com/
+   30          *
+   31          * ÐÞ¸Ä¼ÇÂ¼
+   32          * ÈÕÆÚ              ×÷Õß           ±¸×¢
+   33          * 2024-08-01        ´óW            first version
+   34          *********************************************************************************************************
+             -***********/
+   35          
+   36          #include "zf_common_headfile.h"
+   37          #include "sys.h"
+   38          
+   39          // STCÎÞË¢µçµ÷½öÖ§³Ö3Sï®µç³Ø£¬Çë°´ÕÕ¹æ¶¨Ê¹ÓÃµç³Ø
+   40          // STCÎÞË¢µçµ÷½öÖ§³Ö3Sï®µç³Ø£¬Çë°´ÕÕ¹æ¶¨Ê¹ÓÃµç³Ø
+   41          // STCÎÞË¢µçµ÷½öÖ§³Ö3Sï®µç³Ø£¬Çë°´ÕÕ¹æ¶¨Ê¹ÓÃµç³Ø
+   42          
+   43          // *************************** Àý³ÌÓ²¼þÁ¬½ÓËµÃ÷ ***************************
+   44          //      Ä£¿é¹Ü½Å            µ¥Æ¬»ú¹Ü½Å
+   45          //      PWM_1                   P02
+   46          //      PWM_2                   P26
+   47          //      GND                     GND
+   48          //
+   49          //      ½ÓÏß¶Ë×Ó +          µç³ØÕý¼«
+   50          //      ½ÓÏß¶Ë×Ó -          µç³Ø¸º¼«
+   51          //
+   52          // Ê¹ÓÃ Ñ§Ï°Ö÷°å ½øÐÐ²âÊÔ
+   53          //      ½«Ä£¿éµÄµçÔ´½ÓÏß¶Ë×ÓÓëÖ÷°åµÄÇý¶¯¹©µç¶Ë×ÓÁ¬½Ó
+   54          //      ½«Ä£¿éµÄÐÅºÅ½Ó¿ÚÊ¹ÓÃÅäÌ×»ÒÅÅÏßÓëÖ÷°åµç»úÐÅºÅ½Ó¿ÚÁ¬½Ó Çë×¢Òâ½ÓÏß·½Ïò ²»È·¶¨·½Ïò¾ÍÊÇÓÃÍòÓÃ±íÈ·ÈÏÒ»Ï
+             -Â Òý½Å²Î¿¼ÉÏ·½ºËÐÄ°åÁ¬½Ó
+C251 COMPILER V5.60.0,  main                                                               16/01/25  23:25:19  PAGE 2   
+
+   55          //      ½«Ö÷°åÓë¹©µçµç³ØÕýÈ·Á¬½Ó
+   56          
+   57          // *************************** Àý³Ì²âÊÔËµÃ÷ ***************************
+   58          // 1.ºËÐÄ°åÉÕÂ¼Íê³É±¾Àý³Ì Ö÷°åµç³Ø¹©µç
+   59          //
+   60          // 2.Èç¹û½ÓÁËSTCÎÞË¢µçµ÷£¬¿ÉÒÔ¿´µ½ ÎÞË¢µçµ÷¿ØÖÆ·çÉÈ×ª¶¯¡£
+   61          //
+   62          // 3.Èç¹ûÃ»ÓÐ½Óµç»ú Ê¹ÓÃÍòÓÃ±í¿ÉÒÔÔÚÇý¶¯µç»úÊä³ö¶Ë×ÓÉÏ²âÁ¿µ½Êä³öµçÑ¹±ä»¯
+   63          //
+   64          // Èç¹û·¢ÏÖÏÖÏóÓëËµÃ÷ÑÏÖØ²»·û Çë²ÎÕÕ±¾ÎÄ¼þ×îÏÂ·½ Àý³Ì³£¼ûÎÊÌâËµÃ÷ ½øÐÐÅÅ²é
+   65          
+   66          // **************************** ´úÂëÇøÓò ****************************
+   67          #define FREQ               (50)                                                // ¿ØÖÆÆµÂÊÎª50HZ£¬×î¸ßÖ§³
+             -Ö300HZ
+   68          #define PWM_1              (PWMA_CH2P_P12)
+   69          #define PWM_2              (PWMA_CH4P_P26)
+   70          
+   71          uint16 duty = 0;
+   72          void main()
+   73          {
+   74   1          clock_init(SYSTEM_CLOCK_40M);
+   75   1              debug_init();
+   76   1      
+   77   1         
+   78   1          // ´Ë´¦±àÐ´ÓÃ»§´úÂë ÀýÈçÍâÉè³õÊ¼»¯´úÂëµÈ
+   79   1          pwm_init(PWM_1, FREQ, 0);                                                   // PWM Í¨µÀ1 ³õÊ¼»¯ÆµÂÊ 5
+             -0Hz  Õ¼¿Õ±È³õÊ¼Îª 0
+   80   1          pwm_init(PWM_2, FREQ, 0);                                                   // PWM Í¨µÀ2 ³õÊ¼»¯ÆµÂÊ 5
+             -0Hz  Õ¼¿Õ±È³õÊ¼Îª 0
+   81   1          rocker_init();  
+   82   1                      icm20602_init();
+   83   1      //              imu660ra_init();
+   84   1              
+   85   1                      // ÉèÖÃÖÜÆÚÖÐ¶Ï»Øµ÷º¯Êý
+   86   1      //              tim0_irq_handler = pit_hanlder;
+   87   1      //    pit_ms_init(PIT, 5);
+   88   1              
+   89   1              // ´Ë´¦±àÐ´ÓÃ»§´úÂë ÀýÈçÍâÉè³õÊ¼»¯´úÂëµÈ
+   90   1      
+   91   1          // µçµ÷¿ØÖÆÊÇ¿´¸ßµçÆ½Ê±¼ä£¬·¶Î§£º 1ms-2ms
+   92   1          // 1ms Îª 0%
+   93   1          // 2ms Îª 100%
+   94   1      
+   95   1          duty = 1.0 / 20 * 10000;        // (1ms/20ms * 10000)£¨10000ÊÇPWMµÄÂúÕ¼¿Õ±ÈÊ±ºòµÄÖµ£© 10000ÎªPWM×î´óÖ
+             -µ
+   96   1      
+   97   1          while(1)
+   98   1          {
+   99   2                              
+  100   2      //                      rocker_read();
+  101   2      //                      printf("rx:%.2f,ry:%.2f,state:%d\n",R_x_val,R_y_val,Rocker_state);
+  102   2                              icm20602_get_acc();                                                         // »ñÈ¡ICM20602µÄ¼ÓËÙ¶È²âÁ
+             -¿ÊýÖµ
+  103   2          icm20602_get_gyro();                                                         // »ñÈ¡ IMU660RA µÄ½ÇËÙ¶
+             -È²âÁ¿ÊýÖµ
+  104   2                      printf("\r\nICM20602 acc data:  x=%5d, y=%5d, z=%5d\r\n", icm20602_acc_x, icm20602_acc_y, icm20602_acc_
+             -z);
+  105   2          printf("\r\nICM20602 gyro data: x=%5d, y=%5d, z=%5d\r\n", icm20602_gyro_x, icm20602_gyro_y, icm20602_
+             -gyro_z);
+  106   2          system_delay_ms(500);
+  107   2                      // ´Ë´¦±àÐ´ÐèÒªÑ­»·Ö´ÐÐµÄ´úÂë
+  108   2      
+  109   2              // ¼ÆËãÎÞË¢µçµ÷×ªËÙ   £¨1ms - 2ms£©/20ms * 10000£¨10000ÊÇPWMµÄÂúÕ¼¿Õ±ÈÊ±ºòµÄÖµ£©
+  110   2              // ÔÚ50HzµÄ¿ØÖÆÆµÂÊÏÂ£¬ÎÞË¢µçµ÷×ªËÙ 0%   Îª 500
+  111   2              // ÔÚ50HzµÄ¿ØÖÆÆµÂÊÏÂ£¬ÎÞË¢µçµ÷×ªËÙ 20%  Îª 600
+  112   2              // ÔÚ50HzµÄ¿ØÖÆÆµÂÊÏÂ£¬ÎÞË¢µçµ÷×ªËÙ 40%  Îª 700
+C251 COMPILER V5.60.0,  main                                                               16/01/25  23:25:19  PAGE 3   
+
+  113   2              // ÔÚ50HzµÄ¿ØÖÆÆµÂÊÏÂ£¬ÎÞË¢µçµ÷×ªËÙ 60%  Îª 800
+  114   2              // ÔÚ50HzµÄ¿ØÖÆÆµÂÊÏÂ£¬ÎÞË¢µçµ÷×ªËÙ 80%  Îª 900
+  115   2              // ÔÚ50HzµÄ¿ØÖÆÆµÂÊÏÂ£¬ÎÞË¢µçµ÷×ªËÙ 100% Îª 1000
+  116   2                      
+  117   2                      // µçµ÷Ö§³Ö50hz-300hzµÄ¿ØÖÆÆµÂÊ
+  118   2                      // 50HzµÄ¿ØÖÆÆµÂÊ £¬´Ó0%µ½100%Õ¼¿Õ±ÈÎª500µ½1000
+  119   2                      // 100HzµÄ¿ØÖÆÆµÂÊ£¬´Ó0%µ½100%Õ¼¿Õ±ÈÎª1000µ½2000
+  120   2                      // 200HzµÄ¿ØÖÆÆµÂÊ£¬´Ó0%µ½100%Õ¼¿Õ±ÈÎª2000µ½4000
+  121   2                      // 300HzµÄ¿ØÖÆÆµÂÊ£¬´Ó0%µ½100%Õ¼¿Õ±ÈÎª3000µ½6000
+  122   2                      // Èç¹û£¬¿´ÁË´Ë¶Î»°ÔÙÀ´ÎÊ£¬ÎÒ»áÔÙ´Î½ØÍ¼¸øÄãÕâ¶Î»°¡£
+  123   2                      
+  124   2              // ÐÞ¸ÄdutyµÄÖµ£¬¿ÉÒÔÐÞ¸ÄÎÞË¢µçµ÷×ªËÙ
+  125   2      
+  126   2              
+  127   2              // ´Ë´¦±àÐ´ÐèÒªÑ­»·Ö´ÐÐµÄ´úÂë
+  128   2          }
+  129   1      }
+  130          // **************************** ´úÂëÇøÓò ****************************
+  131          
+  132          // *************************** Àý³Ì³£¼ûÎÊÌâËµÃ÷ ***************************
+  133          // Óöµ½ÎÊÌâÊ±Çë°´ÕÕÒÔÏÂÎÊÌâ¼ì²éÁÐ±í¼ì²é
+  134          //
+  135          // ÎÊÌâ1£ºµç»ú²»×ª»òÕßÄ£¿éÊä³öµçÑ¹ÎÞ±ä»¯
+  136          //      Èç¹ûÊ¹ÓÃÖ÷°å²âÊÔ£¬Ö÷°å±ØÐëÒªÓÃµç³Ø¹©µç
+  137          //      ¼ì²éÄ£¿éÊÇ·ñÕýÈ·Á¬½Ó¹©µç ±ØÐëÊ¹ÓÃµçÔ´Ïß¹©µç ²»ÄÜÊ¹ÓÃ¶Å°îÏß
+  138          //      ²é¿´³ÌÐòÊÇ·ñÕý³£ÉÕÂ¼£¬ÊÇ·ñÏÂÔØ±¨´í£¬È·ÈÏÕý³£°´ÏÂ¸´Î»°´¼ü
+  139          //      ÍòÓÃ±í²âÁ¿¶ÔÓ¦ PWM Òý½ÅµçÑ¹ÊÇ·ñ±ä»¯£¬Èç¹û²»±ä»¯Ö¤Ã÷³ÌÐòÎ´ÔËÐÐ£¬»òÕßÒý½ÅËð»µ£¬»òÕß½Ó´¥²»Á¼ ÁªÏµ¼¼Ê
+             -õ¿Í·þ
+  140          
+  141          
+  142          
+  143          
+
+
+Module Information          Static   Overlayable
+------------------------------------------------
+  code size            =       185     ------
+  ecode size           =    ------     ------
+  data size            =    ------     ------
+  idata size           =    ------     ------
+  pdata size           =    ------     ------
+  xdata size           =         2     ------
+  xdata-const size     =    ------     ------
+  edata size           =    ------     ------
+  bit size             =    ------     ------
+  ebit size            =    ------     ------
+  bitaddressable size  =    ------     ------
+  ebitaddressable size =    ------     ------
+  far data size        =    ------     ------
+  huge data size       =    ------     ------
+  const size           =    ------     ------
+  hconst size          =        95     ------
+End of Module Information.
+
+
+C251 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
