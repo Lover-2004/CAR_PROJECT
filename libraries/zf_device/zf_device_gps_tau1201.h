@@ -49,9 +49,9 @@
 #include "zf_common_typedef.h"
 
 //=================================================定义 定位模块 基本配置================================================
-#define GPS_TAU1201_UART    (UART_1)
-#define GPS_TAU1201_RX      (UART1_TX_P31)                                    // GPS RX引脚连接到单片机此
-#define GPS_TAU1201_TX      (UART1_RX_P30)                                    // GPS TX串口引脚
+#define GPS_TAU1201_UART    (UART_4)
+#define GPS_TAU1201_RX      (UART4_TX_P03)                                    // GPS RX引脚连接到单片机此
+#define GPS_TAU1201_TX      (UART4_RX_P02)                                    // GPS TX串口引脚
 
 #define ANGLE_TO_RAD(x)     ((x) * PI / 180.0)                                  // 角度转换为弧度
 #define RAD_TO_ANGLE(x)     ((x) * 180.0 / PI)                                  // 弧度转换为角度

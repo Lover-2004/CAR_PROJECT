@@ -1,0 +1,80 @@
+C251 COMPILER V5.60.0,  GPS                                                                21/01/25  18:45:44  PAGE 1   
+
+
+C251 COMPILER V5.60.0, COMPILATION OF MODULE GPS
+OBJECT MODULE PLACED IN .\out_file\GPS.obj
+COMPILER INVOKED BY: D:\Keil_v5\C251\BIN\C251.EXE ..\code\GPS.c LARGE NOALIAS FLOAT64 WARNINGLEVEL(3) OPTIMIZE(SIZE) BRO
+                    -WSE INCDIR(..\..\libraries\zf_common;..\..\libraries\zf_components;..\..\libraries\zf_device;..\..\libraries\zf_driver;.
+                    -.\user;..\code) DEBUG PRINT(.\out_file\GPS.lst) OBJECT(.\out_file\GPS.obj) 
+
+stmt  level    source
+
+    1          #include "GPS.h"
+    2          
+    3          void GPS_Display(void)
+    4          {
+    5   1              if(gps_tau1201_flag)  //≈–∂œ≤…ºØ±Í÷æŒª
+    6   1              {
+    7   2                      gps_tau1201_flag = 0;
+    8   2                      
+    9   2                      if(!gps_data_parse())          //ø™ ºΩ‚Œˆ ˝æ›
+   10   2                      {
+   11   3                              //œ‘ æ»’∆⁄º∞ ±º‰
+   12   3                              ips200_show_uint16(   0, 16*0, gps_tau1201.time.year);
+   13   3                              ips200_show_uint8(  80, 16*0, gps_tau1201.time.month);
+   14   3                              ips200_show_uint8( 160, 16*0, gps_tau1201.time.day);
+   15   3                              ips200_show_uint8(   0, 16*1, gps_tau1201.time.hour);
+   16   3                              ips200_show_uint8(  80, 16*1, gps_tau1201.time.minute);
+   17   3                              ips200_show_uint8( 160, 16*1, gps_tau1201.time.second);
+   18   3      
+   19   3                              //œ‘ æGPSŒª÷√–≈œ¢
+   20   3                              ips200_show_uint8(  0, 16*2, gps_tau1201.state);
+   21   3                              ips200_show_float(120, 16*2, gps_tau1201.latitude, 4, 6);
+   22   3                              ips200_show_float(  0, 16*3, gps_tau1201.longitude, 4, 6);
+   23   3                              ips200_show_float(120, 16*3, gps_tau1201.speed, 4, 6);
+   24   3                              ips200_show_float(  0, 16*4, gps_tau1201.direction, 4, 6);
+   25   3                              ips200_show_uint8(120, 16*4, gps_tau1201.satellite_used);
+   26   3                              ips200_show_float(  0, 16*5, gps_tau1201.height, 4, 6);
+   27   3                              
+   28   3                              printf("now time:\r\n");                                        //  ‰≥ˆƒÍ‘¬»’ ±∑÷√Î
+   29   3                              printf("year-%d, month-%d, day-%d\r\n", gps_tau1201.time.year, gps_tau1201.time.month, gps_tau1201.tim
+             -e.day);           //  ‰≥ˆƒÍ‘¬»’ ±∑÷√Î
+   30   3                              printf("hour-%d, minute-%d, second-%d\r\n", gps_tau1201.time.hour, gps_tau1201.time.minute, gps_tau120
+             -1.time.second);   //  ‰≥ˆƒÍ‘¬»’ ±∑÷√Î
+   31   3                              printf("gps_state       = %d\r\n" , gps_tau1201.state);         // ‰≥ˆµ±«∞∂®Œª”––ßƒ£ Ω 1£∫∂®Œª”––ß  0£
+             -∫∂®ŒªŒﬁ–ß
+   32   3                              printf("latitude        = %lf\r\n", gps_tau1201.latitude);      // ‰≥ˆŒ≥∂»–≈œ¢
+   33   3                              printf("longitude       = %lf\r\n", gps_tau1201.longitude);     // ‰≥ˆæ≠∂»–≈œ¢
+   34   3                              printf("speed           = %lf\r\n", gps_tau1201.speed);         // ‰≥ˆÀŸ∂»–≈œ¢
+   35   3                              printf("direction       = %lf\r\n", gps_tau1201.direction);     // ‰≥ˆ∑ΩœÚ–≈œ¢
+   36   3                              printf("satellite_used  = %d\r\n" , gps_tau1201.satellite_used);// ‰≥ˆµ±«∞”√”⁄∂®ŒªµƒŒ¿–« ˝¡ø
+   37   3                              printf("height          = %lf\r\n", gps_tau1201.height);        // ‰≥ˆµ±«∞GPSÃÏœﬂÀ˘¥¶∏ﬂ∂»
+   38   3                      }
+   39   2              }
+   40   1      }
+
+
+Module Information          Static   Overlayable
+------------------------------------------------
+  code size            =       743     ------
+  ecode size           =    ------     ------
+  data size            =    ------     ------
+  idata size           =    ------     ------
+  pdata size           =    ------     ------
+  xdata size           =    ------     ------
+  xdata-const size     =    ------     ------
+  edata size           =    ------     ------
+  bit size             =    ------     ------
+  ebit size            =    ------     ------
+  bitaddressable size  =    ------     ------
+C251 COMPILER V5.60.0,  GPS                                                                21/01/25  18:45:44  PAGE 2   
+
+  ebitaddressable size =    ------     ------
+  far data size        =    ------     ------
+  huge data size       =    ------     ------
+  const size           =    ------     ------
+  hconst size          =       238     ------
+End of Module Information.
+
+
+C251 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

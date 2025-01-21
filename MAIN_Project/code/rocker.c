@@ -4,7 +4,6 @@
 #define ROCKER_Y            (ADC_CH3_P13)
 
 
-
 float R_x_val=0,R_y_val=0;
 uint16 Rocker_state=0;
 

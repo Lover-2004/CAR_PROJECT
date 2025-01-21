@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  motor                                                              16/01/25  23:25:20  PAGE 1   
+C251 COMPILER V5.60.0,  motor                                                              21/01/25  19:05:30  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE motor
@@ -10,16 +10,40 @@ COMPILER INVOKED BY: D:\Keil_v5\C251\BIN\C251.EXE ..\code\motor.c LARGE NOALIAS 
 stmt  level    source
 
     1          #include "motor.h"
+    2          
+    3          uint16 duty = 1.0 / 20 * 10000;                 // (1ms/20ms * 10000)£¨10000ÊÇPWMµÄÂúÕ¼¿Õ±ÈÊ±ºòµÄÖµ£© 10000ÎªPWM×î´óÖµ
+    4          
+    5          void Motor_Init(void)
+    6          {
+    7   1              pwm_init(PWM_1, FREQ, 0);                                           // PWM Í¨µÀ1 ³õÊ¼»¯ÆµÂÊ 50Hz  Õ¼¿Õ±È
+             -³õÊ¼Îª 0
+    8   1          pwm_init(PWM_2, FREQ, 0);                                           // PWM Í¨µÀ2 ³õÊ¼»¯ÆµÂÊ 50Hz  Õ¼¿
+             -Õ±È³õÊ¼Îª 0
+    9   1      }
+   10          
+   11          // ¼ÆËãÎÞË¢µçµ÷×ªËÙ   £¨1ms - 2ms£©/20ms * 10000£¨10000ÊÇPWMµÄÂúÕ¼¿Õ±ÈÊ±ºòµÄÖµ£©
+   12          // ÔÚ50HzµÄ¿ØÖÆÆµÂÊÏÂ£¬ÎÞË¢µçµ÷×ªËÙ 0%   Îª 500
+   13          // ÔÚ50HzµÄ¿ØÖÆÆµÂÊÏÂ£¬ÎÞË¢µçµ÷×ªËÙ 20%  Îª 600
+   14          // ÔÚ50HzµÄ¿ØÖÆÆµÂÊÏÂ£¬ÎÞË¢µçµ÷×ªËÙ 40%  Îª 700
+   15          // ÔÚ50HzµÄ¿ØÖÆÆµÂÊÏÂ£¬ÎÞË¢µçµ÷×ªËÙ 60%  Îª 800
+   16          // ÔÚ50HzµÄ¿ØÖÆÆµÂÊÏÂ£¬ÎÞË¢µçµ÷×ªËÙ 80%  Îª 900
+   17          // ÔÚ50HzµÄ¿ØÖÆÆµÂÊÏÂ£¬ÎÞË¢µçµ÷×ªËÙ 100% Îª 1000
+   18          
+   19          // µçµ÷Ö§³Ö50hz-300hzµÄ¿ØÖÆÆµÂÊ
+   20          // 50HzµÄ¿ØÖÆÆµÂÊ £¬´Ó0%µ½100%Õ¼¿Õ±ÈÎª500µ½1000
+   21          // 100HzµÄ¿ØÖÆÆµÂÊ£¬´Ó0%µ½100%Õ¼¿Õ±ÈÎª1000µ½2000
+   22          // 200HzµÄ¿ØÖÆÆµÂÊ£¬´Ó0%µ½100%Õ¼¿Õ±ÈÎª2000µ½4000
+   23          // 300HzµÄ¿ØÖÆÆµÂÊ£¬´Ó0%µ½100%Õ¼¿Õ±ÈÎª3000µ½6000
 
 
 Module Information          Static   Overlayable
 ------------------------------------------------
-  code size            =    ------     ------
+  code size            =        46     ------
   ecode size           =    ------     ------
   data size            =    ------     ------
   idata size           =    ------     ------
   pdata size           =    ------     ------
-  xdata size           =    ------     ------
+  xdata size           =         2     ------
   xdata-const size     =    ------     ------
   edata size           =    ------     ------
   bit size             =    ------     ------
@@ -29,7 +53,7 @@ Module Information          Static   Overlayable
   far data size        =    ------     ------
   huge data size       =    ------     ------
   const size           =    ------     ------
-  hconst size          =    ------     ------
+  hconst size          =         7     ------
 End of Module Information.
 
 

@@ -774,6 +774,26 @@
               <FileType>5</FileType>
               <FilePath>..\code\imu.h</FilePath>
             </File>
+            <File>
+              <FileName>GPS.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\code\GPS.c</FilePath>
+            </File>
+            <File>
+              <FileName>GPS.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\code\GPS.h</FilePath>
+            </File>
+            <File>
+              <FileName>CCD.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\code\CCD.c</FilePath>
+            </File>
+            <File>
+              <FileName>CCD.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\code\CCD.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

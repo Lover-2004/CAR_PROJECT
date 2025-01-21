@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  sys                                                                16/01/25  23:25:19  PAGE 1   
+C251 COMPILER V5.60.0,  sys                                                                21/01/25  19:05:30  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE sys
@@ -10,11 +10,22 @@ COMPILER INVOKED BY: D:\Keil_v5\C251\BIN\C251.EXE ..\code\sys.c LARGE NOALIAS FL
 stmt  level    source
 
     1          #include "sys.h"
+    2          
+    3          void All_Init(void)
+    4          {
+    5   1              rocker_init();                          //遥感初始化
+    6   1              icm20602_init();                        //姿态传感器初始化
+    7   1      //      imu660ra_init();
+    8   1              ips200_init();                          //屏幕初始化
+    9   1              Motor_Init();                           //电机初始化
+   10   1              gps_init();                                     //GPS初始化
+   11   1              tsl1401_init();                         //CCD初始化
+   12   1      }
 
 
 Module Information          Static   Overlayable
 ------------------------------------------------
-  code size            =    ------     ------
+  code size            =        18     ------
   ecode size           =    ------     ------
   data size            =    ------     ------
   idata size           =    ------     ------
