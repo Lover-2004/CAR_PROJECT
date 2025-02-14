@@ -484,7 +484,7 @@ void ips200_show_wave(uint16 x, uint16 y, uint8 *p, uint16 width, uint16 value_m
 // @brief       汉字显示
 // @param       x               坐标x方向的起点 参数范围 [0, ips200_x_max-1]
 // @param       y               坐标y方向的起点 参数范围 [0, ips200_y_max-1]
-// @param       siz            取模的时候设置的汉字字体大小 也就是一个汉字占用的点阵长宽为多少个点 取模的时候需要长宽是一样的
+// @param       siz             取模的时候设置的汉字字体大小 也就是一个汉字占用的点阵长宽为多少个点 取模的时候需要长宽是一样的
 // @param       *p              需要显示的汉字数组
 // @param       number          需要显示多少位
 // @param       color           显示颜色

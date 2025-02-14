@@ -9,6 +9,7 @@
 #include "GPS.h"
 #include "motor.h"
 #include "CCD.h"
+#include "menu.h"
 
 void All_Init(void);
 

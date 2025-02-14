@@ -41,7 +41,8 @@
 ".\out_file\motor.obj",
 ".\out_file\rocker.obj",
 ".\out_file\GPS.obj",
-".\out_file\CCD.obj" 
+".\out_file\CCD.obj",
+".\out_file\menu.obj" 
 TO ".\out_file\SEEKFREE" 
 PRINT(".\out_file\SEEKFREE.map") CASE DISABLEWARNING (57,16) 
 REMOVEUNUSED 

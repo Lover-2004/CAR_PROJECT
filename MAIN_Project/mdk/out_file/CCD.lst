@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  CCD                                                                21/01/25  19:05:31  PAGE 1   
+C251 COMPILER V5.60.0,  CCD                                                                15/02/25  01:36:46  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE CCD
@@ -66,7 +66,7 @@ stmt  level    source
    52   4                                      {
    53   5                                              y1_boundary[j] = (uint8)(128 - tsl1401_data[0][j] / 8);
    54   5                                              y2_boundary[j] = (uint8)(256 - tsl1401_data[1][j] / 8);
-C251 COMPILER V5.60.0,  CCD                                                                21/01/25  19:05:31  PAGE 2   
+C251 COMPILER V5.60.0,  CCD                                                                15/02/25  01:36:46  PAGE 2   
 
    55   5                                              break;
    56   5                                      }

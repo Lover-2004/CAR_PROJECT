@@ -38,6 +38,8 @@
 // **************************** ´úÂëÇøÓò ****************************
 void pit_handler (void);
 
+int8 menu2;
+
 void main()
 {
     clock_init(SYSTEM_CLOCK_40M);
@@ -52,6 +54,12 @@ void main()
 
     while(1)
     {
+		menu2=menu1();
+//		if(menu2 ==1){menu2_motor ();}
+//		if(menu2 ==2){}
+//		if(menu2 ==3){}
+//		if(menu2 ==4){}
+
 //		rocker_read();
 //		printf("rx:%.2f,ry:%.2f,state:%d\n",R_x_val,R_y_val,Rocker_state);
 		
@@ -62,7 +70,7 @@ void main()
 		
 //		GPS_Display();
 		
-		CCD_Display();
+//		CCD_Display();
 //		system_delay_ms(500);
     }
 }

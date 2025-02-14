@@ -8,15 +8,15 @@ extern uint16 Rocker_state;
 
 typedef enum 
 {
-	Rocker_MEDIUM=0,
-	Rocker_UP,
-	Rocker_DOWN,
-	Rocker_LEFT,
-	Rocker_RIGHT,
-	Rocker_LEFTUP,
-	Rocker_LEFTDOWN,
-	Rocker_RIGHTUP,
-	Rocker_RIGHTDOWN
+	Rocker_MEDIUM=0,	//中
+	Rocker_UP,			//上
+	Rocker_DOWN,		//下
+	Rocker_LEFT,		//左
+	Rocker_RIGHT,		//右
+	Rocker_LEFTUP,		//左上
+	Rocker_LEFTDOWN,	//左下
+	Rocker_RIGHTUP,		//右上
+	Rocker_RIGHTDOWN	//右下
 	
 }Rocker;
 

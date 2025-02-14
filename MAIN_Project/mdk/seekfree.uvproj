@@ -794,6 +794,16 @@
               <FileType>5</FileType>
               <FilePath>..\code\CCD.h</FilePath>
             </File>
+            <File>
+              <FileName>menu.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\code\menu.c</FilePath>
+            </File>
+            <File>
+              <FileName>menu.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\code\menu.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

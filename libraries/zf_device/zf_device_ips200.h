@@ -107,6 +107,7 @@ void    ips200_show_int16               (uint16 x, uint16 y, int16 dat);
 void    ips200_show_uint16              (uint16 x, uint16 y, uint16 dat);
 void    ips200_show_int32               (uint16 x, uint16 y, int32 dat, uint8 num);
 void    ips200_show_float               (uint16 x, uint16 y, double dat, uint8 num, uint8 pointnum);
+void 	ips200_show_chinese				(uint16 x, uint16 y, uint8 siz, const uint8 *p, uint8 number, uint16 color);
 
 void    ips200_show_wave                (uint16 x, uint16 y, uint8 *p, uint16 width, uint16 value_max, uint16 dis_width, uint16 dis_value_max);
 

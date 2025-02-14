@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  main                                                               21/01/25  19:05:30  PAGE 1   
+C251 COMPILER V5.60.0,  main                                                               15/02/25  01:56:12  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE main
@@ -51,62 +51,70 @@ stmt  level    source
    38          // **************************** 代码区域 ****************************
    39          void pit_handler (void);
    40          
-   41          void main()
-   42          {
-   43   1          clock_init(SYSTEM_CLOCK_40M);
-   44   1              debug_init();
-   45   1      
-   46   1          /*外设初始化*/
-   47   1              All_Init();
-   48   1              
-   49   1              // 设置定时器1中断回调函数
-   50   1              tim1_irq_handler = pit_handler;
-   51   1              pit_ms_init(PIT_CH, 10);                                                   // 初始化 PIT 为周期中断 10ms
+   41          int8 menu2;
+   42          
+   43          void main()
+   44          {
+   45   1          clock_init(SYSTEM_CLOCK_40M);
+   46   1              debug_init();
+   47   1      
+   48   1          /*外设初始化*/
+   49   1              All_Init();
+   50   1              
+   51   1              // 设置定时器1中断回调函数
+   52   1              tim1_irq_handler = pit_handler;
+   53   1              pit_ms_init(PIT_CH, 10);                                                   // 初始化 PIT 为周期中断 10ms
              - 周期
-   52   1      
-   53   1          while(1)
-   54   1          {
-C251 COMPILER V5.60.0,  main                                                               21/01/25  19:05:30  PAGE 2   
+   54   1      
+C251 COMPILER V5.60.0,  main                                                               15/02/25  01:56:12  PAGE 2   
 
-   55   2      //              rocker_read();
-   56   2      //              printf("rx:%.2f,ry:%.2f,state:%d\n",R_x_val,R_y_val,Rocker_state);
-   57   2                      
-   58   2      //              icm20602_get_acc();                 // 获取ICM20602的加速度测量数值
-   59   2      //              icm20602_get_gyro();                // 获取IMU660RA的角速度测量数值
-   60   2      //              printf("\r\nICM20602 acc data:  x=%5d, y=%5d, z=%5d\r\n", icm20602_acc_x, icm20602_acc_y, icm20602_ac
+   55   1          while(1)
+   56   1          {
+   57   2                      menu2=menu1();
+   58   2      //              if(menu2 ==1){menu2_motor ();}
+   59   2      //              if(menu2 ==2){}
+   60   2      //              if(menu2 ==3){}
+   61   2      //              if(menu2 ==4){}
+   62   2      
+   63   2      //              rocker_read();
+   64   2      //              printf("rx:%.2f,ry:%.2f,state:%d\n",R_x_val,R_y_val,Rocker_state);
+   65   2                      
+   66   2      //              icm20602_get_acc();                 // 获取ICM20602的加速度测量数值
+   67   2      //              icm20602_get_gyro();                // 获取IMU660RA的角速度测量数值
+   68   2      //              printf("\r\nICM20602 acc data:  x=%5d, y=%5d, z=%5d\r\n", icm20602_acc_x, icm20602_acc_y, icm20602_ac
              -c_z);
-   61   2      //              printf("\r\nICM20602 gyro data: x=%5d, y=%5d, z=%5d\r\n", icm20602_gyro_x, icm20602_gyro_y, icm20602_
+   69   2      //              printf("\r\nICM20602 gyro data: x=%5d, y=%5d, z=%5d\r\n", icm20602_gyro_x, icm20602_gyro_y, icm20602_
              -gyro_z);
-   62   2                      
-   63   2      //              GPS_Display();
-   64   2                      
-   65   2                      CCD_Display();
-   66   2      //              system_delay_ms(500);
-   67   2          }
-   68   1      }
-   69          
-   70          //-------------------------------------------------------------------------------------------------------
+   70   2                      
+   71   2      //              GPS_Display();
+   72   2                      
+   73   2      //              CCD_Display();
+   74   2      //              system_delay_ms(500);
+   75   2          }
+   76   1      }
+   77          
+   78          //-------------------------------------------------------------------------------------------------------
              -------------
-   71          // 函数简介     PIT 的周期中断处理函数 这个函数将在 PIT 对应的定时器中断调用 详见 isr.c
-   72          // 参数说明     void
-   73          // 返回参数     void
-   74          // 使用示例     pit_handler();
-   75          //-------------------------------------------------------------------------------------------------------
+   79          // 函数简介     PIT 的周期中断处理函数 这个函数将在 PIT 对应的定时器中断调用 详见 isr.c
+   80          // 参数说明     void
+   81          // 返回参数     void
+   82          // 使用示例     pit_handler();
+   83          //-------------------------------------------------------------------------------------------------------
              -------------
-   76          void pit_handler (void)
-   77          {       
-   78   1              tsl1401_collect_pit_handler();
-   79   1      }
+   84          void pit_handler (void)
+   85          {       
+   86   1              tsl1401_collect_pit_handler();
+   87   1      }
 
 
 Module Information          Static   Overlayable
 ------------------------------------------------
-  code size            =        72     ------
+  code size            =        78     ------
   ecode size           =    ------     ------
   data size            =    ------     ------
   idata size           =    ------     ------
   pdata size           =    ------     ------
-  xdata size           =    ------     ------
+  xdata size           =         1     ------
   xdata-const size     =    ------     ------
   edata size           =    ------     ------
   bit size             =    ------     ------

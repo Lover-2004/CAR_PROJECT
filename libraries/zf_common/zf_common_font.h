@@ -60,7 +60,7 @@ typedef enum
 
 extern const uint8 code tft_ascii[][16];
 extern const uint8 code ascii_font_6x8[][6];
-
+extern const uint8 code chinese_test[];
 
 
 #endif
