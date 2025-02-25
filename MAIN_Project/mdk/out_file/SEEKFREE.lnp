@@ -42,9 +42,15 @@
 ".\out_file\rocker.obj",
 ".\out_file\GPS.obj",
 ".\out_file\CCD.obj",
-".\out_file\menu.obj" 
+".\out_file\menu.obj",
+".\out_file\control.obj",
+".\out_file\time.obj",
+".\out_file\encoder.obj",
+".\out_file\valuepack.obj",
+".\out_file\imu660.obj" 
 TO ".\out_file\SEEKFREE" 
 PRINT(".\out_file\SEEKFREE.map") CASE DISABLEWARNING (57,16) 
-REMOVEUNUSED 
+REMOVEUNUSED
+
 CLASSES (EDATA (0x0-0x7FF), 
 HDATA (0x0-0x7FF)) 

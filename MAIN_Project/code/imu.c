@@ -178,12 +178,6 @@ void ICM_getEulerianAngles(void) {
     eulerAngle_roll = -asin(-2 * q1 * q3 + 2 * q0 * q2) * 180 / M_PI;                                  // pitch
     eulerAngle_pitch = -atan2(2 * q2 * q3 + 2 * q0 * q1, -2 * q1 * q1 - 2 * q2 * q2 + 1) * 180 / M_PI; // roll
     eulerAngle_yaw = -atan2(2 * q1 * q2 + 2 * q0 * q3, -2 * q2 * q2 - 2 * q3 * q3 + 1) * 180 / M_PI;   // yaw
-
-    //因为改结构导致极性全部取反
-//    eulerAngle_pitch=-eulerAngle_pitch;
-//    eulerAngle_yaw=-eulerAngle_yaw;
-//    icm_data_gyro_x=-icm_data_gyro_x;
-//    icm_data_gyro_z=-icm_data_gyro_z;
     //确定精度
 //    eulerAngle_roll=Round(eulerAngle_roll,3);
 //    eulerAngle_pitch=Round(eulerAngle_pitch,3);

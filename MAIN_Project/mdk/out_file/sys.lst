@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  sys                                                                15/02/25  01:53:51  PAGE 1   
+C251 COMPILER V5.60.0,  sys                                                                25/02/25  20:33:06  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE sys
@@ -11,26 +11,37 @@ stmt  level    source
 
     1          #include "sys.h"
     2          
-    3          void All_Init(void)
-    4          {
-    5   1              rocker_init();                          //遥感初始化
-    6   1              icm20602_init();                        //姿态传感器初始化
-    7   1      //      imu660ra_init();
-    8   1              ips200_init();                          //屏幕初始化
-    9   1              Motor_Init();                           //电机初始化
-   10   1              gps_init();                                     //GPS初始化
-   11   1              tsl1401_init();                         //CCD初始化
-   12   1      }
+    3          TxPack_P txpack;
+    4          RxPack_P rxpack;
+    5          
+    6          
+    7          void All_Init(void)
+    8          {
+    9   1              rocker_init();                          //遥感初始化
+   10   1      //      icm20602_init();                        //姿态传感器初始化
+   11   1              imu660ra_init();
+   12   1              ips200_init();                          //屏幕初始化
+   13   1              Motor_Init();                           //电机初始化
+   14   1              gps_init();                                     //GPS初始化
+   15   1              tsl1401_init();                         //CCD初始化
+   16   1      //      ValuePack_Init();                       //蓝牙串口助手协议
+   17   1              encoder_Init();                         //编码器初始化
+   18   1      //      BL_uart_init(UART_4,115200,UART4_RX_P02,UART4_TX_P03,UART1_Callback);
+   19   1              
+   20   1              gpio_init(IO_P24,GPO,0,GPO_PUSH_PULL);
+   21   1      //      
+   22   1              timer_Init();                   //定时器最后初始化
+   23   1      }
 
 
 Module Information          Static   Overlayable
 ------------------------------------------------
-  code size            =        18     ------
+  code size            =        40     ------
   ecode size           =    ------     ------
   data size            =    ------     ------
   idata size           =    ------     ------
   pdata size           =    ------     ------
-  xdata size           =    ------     ------
+  xdata size           =        52     ------
   xdata-const size     =    ------     ------
   edata size           =    ------     ------
   bit size             =    ------     ------

@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  uart                                                               15/02/25  01:53:51  PAGE 1   
+C251 COMPILER V5.60.0,  uart                                                               25/02/25  20:33:07  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE uart
@@ -12,16 +12,49 @@ stmt  level    source
     1          #include "uart.h"
     2          
     3          //逐飞库已经重定向printf
+    4          
+    5          
+    6          /******************
+    7          *功能：初始化串口
+    8          *参数：串口编号，波特率，tx引脚，rx引脚，回调函数指针
+    9          *返回值：
+   10          ******************/
+   11          uint8_t BL_uart_init(uart_index_enum uart_n, uint32 baud, uart_pin_enum tx_pin, uart_pin_enum rx_pin,void
+             - *uart_callback)
+   12          {
+   13   1                      if(uart_n == UART_1)
+   14   1          {
+   15   2              uart1_irq_handler = uart_callback;
+   16   2          }
+   17   1          else if(uart_n == UART_2)
+   18   1          {
+   19   2              uart2_irq_handler = uart_callback;
+   20   2          }
+   21   1          else if(uart_n == UART_3)
+   22   1          {
+   23   2              uart3_irq_handler = uart_callback;
+   24   2          }
+   25   1          else if(uart_n == UART_4)
+   26   1          {
+   27   2              uart4_irq_handler = uart_callback;
+   28   2          }
+   29   1              
+   30   1               uart_init (uart_n, baud, tx_pin, rx_pin);   // 初始化串口
+   31   1         uart_rx_interrupt(uart_n, 1);        //默认打开接收中断
+   32   1               
+   33   1                      return 0;
+   34   1      }
+   35          
 
 
 Module Information          Static   Overlayable
 ------------------------------------------------
-  code size            =    ------     ------
+  code size            =       119     ------
   ecode size           =    ------     ------
   data size            =    ------     ------
   idata size           =    ------     ------
   pdata size           =    ------     ------
-  xdata size           =    ------     ------
+  xdata size           =    ------          6
   xdata-const size     =    ------     ------
   edata size           =    ------     ------
   bit size             =    ------     ------

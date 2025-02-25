@@ -1,6 +1,7 @@
 #ifndef ___MENU_H_
 #define ___MENU_H_
+#include "sys.h"
 
-int menu1(void);
+void Menu_display();
 
 #endif

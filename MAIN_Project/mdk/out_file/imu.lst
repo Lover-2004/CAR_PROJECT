@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  imu                                                                15/01/25  18:28:02  PAGE 1   
+C251 COMPILER V5.60.0,  imu                                                                18/02/25  21:15:17  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE imu
@@ -17,6 +17,9 @@ stmt  level    source
     6           */
     7          
     8          #include "imu.h"
+*** ERROR C312 IN LINE 29 OF ..\code\sys.h: misplaced endif control
+*** ERROR C312 IN LINE 31 OF ..\code\sys.h: misplaced endif control
+*** ERROR C312 IN LINE 16 OF ..\code\imu.h: misplaced endif control
     9          #include "math.h"
    10          #define delta_T 0.002f // 2ms计算一次
    11          #define alpha 0.3f
@@ -63,11 +66,11 @@ stmt  level    source
    51   1      //         imu660ra_get_gyro();
    52   1      //         GyroOffset_Xdata += imu660ra_gyro_x;
    53   1      //         GyroOffset_Ydata += imu660ra_gyro_y;
+C251 COMPILER V5.60.0,  imu                                                                18/02/25  21:15:17  PAGE 2   
+
    54   1      //         GyroOffset_Zdata += imu660ra_gyro_z;
    55   1      //         system_delay_ms(5);
    56   1      //     }
-C251 COMPILER V5.60.0,  imu                                                                15/01/25  18:28:02  PAGE 2   
-
    57   1      //     GyroOffset_Xdata /= 5000;
    58   1      //     GyroOffset_Ydata /= 5000;
    59   1      //     GyroOffset_Zdata /= 5000;
@@ -131,11 +134,11 @@ stmt  level    source
   117   1          // 根据当前四元数的姿态值来估算出各重力分量。用于和加速计实际测量出来的各重力分量进行对比，从而实现对
              -四轴姿态的修正
   118   1          vx = 2 * (q1q3 - q0q2);
+C251 COMPILER V5.60.0,  imu                                                                18/02/25  21:15:17  PAGE 3   
+
   119   1          vy = 2 * (q0q1 + q2q3);
   120   1          vz = q0q0 - q1q1 - q2q2 + q3q3;
   121   1          // vz = (q0*q0-0.5f+q3 * q3) * 2;
-C251 COMPILER V5.60.0,  imu                                                                15/01/25  18:28:02  PAGE 3   
-
   122   1      
   123   1          // 叉积来计算估算的重力和实际测量的重力这两个重力向量之间的误差。
   124   1          ex = ay * vz - az * vy;
@@ -199,26 +202,20 @@ stmt  level    source
              - pitch
   179   1          eulerAngle_pitch = -atan2(2 * q2 * q3 + 2 * q0 * q1, -2 * q1 * q1 - 2 * q2 * q2 + 1) * 180 / M_PI; //
              - roll
+C251 COMPILER V5.60.0,  imu                                                                18/02/25  21:15:17  PAGE 4   
+
   180   1          eulerAngle_yaw = -atan2(2 * q1 * q2 + 2 * q0 * q3, -2 * q2 * q2 - 2 * q3 * q3 + 1) * 180 / M_PI;   //
              - yaw
-  181   1      
-C251 COMPILER V5.60.0,  imu                                                                15/01/25  18:28:02  PAGE 4   
+  181   1          //确定精度
+  182   1      //    eulerAngle_roll=Round(eulerAngle_roll,3);
+  183   1      //    eulerAngle_pitch=Round(eulerAngle_pitch,3);
+  184   1      //    eulerAngle_yaw=Round(eulerAngle_yaw,2);
+  185   1      //
+  186   1      //    icm_data_gyro_x=Round(icm_data_gyro_x,3);
+  187   1      //    icm_data_gyro_y=Round(icm_data_gyro_y,2);
+  188   1      //    icm_data_gyro_z=Round(icm_data_gyro_z,2);
+  189   1      
+  190   1      }
+*** ERROR C25 IN LINE 190 OF ..\code\imu.c: syntax error near '}'
 
-  182   1          //因为改结构导致极性全部取反
-  183   1      //    eulerAngle_pitch=-eulerAngle_pitch;
-  184   1      //    eulerAngle_yaw=-eulerAngle_yaw;
-  185   1      //    icm_data_gyro_x=-icm_data_gyro_x;
-  186   1      //    icm_data_gyro_z=-icm_data_gyro_z;
-  187   1          //确定精度
-  188   1      //    eulerAngle_roll=Round(eulerAngle_roll,3);
-  189   1      //    eulerAngle_pitch=Round(eulerAngle_pitch,3);
-  190   1      //    eulerAngle_yaw=Round(eulerAngle_yaw,2);
-  191   1      //
-  192   1      //    icm_data_gyro_x=Round(icm_data_gyro_x,3);
-  193   1      //    icm_data_gyro_y=Round(icm_data_gyro_y,2);
-  194   1      //    icm_data_gyro_z=Round(icm_data_gyro_z,2);
-  195   1      
-  196   1      }
-*** ERROR C25 IN LINE 196 OF ..\code\imu.c: syntax error near '}'
-
-C251 COMPILATION COMPLETE.  0 WARNING(S),  2 ERROR(S)
+C251 COMPILATION COMPLETE.  0 WARNING(S),  5 ERROR(S)

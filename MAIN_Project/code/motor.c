@@ -4,8 +4,66 @@ uint16 duty = 1.0 / 20 * 10000;			// (1ms/20ms * 10000)£¨10000ÊÇPWMµÄÂúÕ¼¿Õ±ÈÊ±º
 
 void Motor_Init(void)
 {
-	pwm_init(PWM_1, FREQ, 0);                                           // PWM Í¨µÀ1 ³õÊ¼»¯ÆµÂÊ 50Hz  Õ¼¿Õ±È³õÊ¼Îª 0
-    pwm_init(PWM_2, FREQ, 0);                                           // PWM Í¨µÀ2 ³õÊ¼»¯ÆµÂÊ 50Hz  Õ¼¿Õ±È³õÊ¼Îª 0
+	pwm_init(PWM_Bottom_L, FREQ, 0);   // PWM ³õÊ¼»¯ÆµÂÊ 50Hz  Õ¼¿Õ±È³õÊ¼Îª 0
+	pwm_init(PWM_Bottom_R, FREQ, 0);   // PWM ³õÊ¼»¯ÆµÂÊ 50Hz  Õ¼¿Õ±È³õÊ¼Îª 0
+	pwm_init(PWM_Behind_L, FREQ, 0);
+	pwm_init(PWM_Behind_R, FREQ, 0);
+	pwm_init(PWM_Around_L, FREQ, 0);
+	pwm_init(PWM_Around_R, FREQ, 0);
+
+}
+
+void Motor_BottomLoad(uint32_t duty_bottom)
+{
+	//Êä³öÏÞ·ù
+	duty_bottom=duty_bottom>1000?1000:(duty_bottom<500?500:duty_bottom);
+	
+	pwm_set_duty(PWM_Bottom_L,duty_bottom);
+	pwm_set_duty(PWM_Bottom_R,duty_bottom);
+}
+
+void Motor_BehindLoad(int32_t left,int32_t right)
+{
+	
+	//·½Ïò¿ØÖÆ
+//	if(left>=0)
+//	{
+//		
+//	}
+//	else
+//	{
+//		
+//	}		
+//	if(right>=0)
+//	{
+//		
+//	}
+//	else
+//	{
+//		
+//	
+	//Êä³öÏÞ·ù
+	left=func_abs(left);
+	right=func_abs(right);
+	left = left>1000?1000 : (left<500?500:left);
+	right = right>1000?1000 : (right<500?500:right);
+	
+	pwm_set_duty(PWM_Behind_L,left);
+	pwm_set_duty(PWM_Behind_R,right);
+}
+
+void Motor_AroundLoad(int32_t left,int32_t right)
+{
+	//if//·½Ïò¿ØÖÆ
+	
+	//Êä³öÏÞ·ù
+	left=func_abs(left);
+	right=func_abs(right);
+	left=left>1000?1000:(left<500?500:left);
+	right=right>1000?1000:(right<500?500:right);
+	
+	pwm_set_duty(PWM_Around_L,left);
+	pwm_set_duty(PWM_Around_R,right);
 }
 
 // ¼ÆËãÎÞË¢µçµ÷×ªËÙ   £¨1ms - 2ms£©/20ms * 10000£¨10000ÊÇPWMµÄÂúÕ¼¿Õ±ÈÊ±ºòµÄÖµ£©

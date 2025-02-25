@@ -42,6 +42,9 @@
 #define IPS_LEN   240
 #define IPS_WIGHT 320
 
+#define FONT_WIDTH 8
+#define FONT_HEIGTH 16
+
 uint16 ips200_pencolor = IPS200_DEFAULT_PENCOLOR;
 uint16 ips200_bgcolor = IPS200_DEFAULT_BGCOLOR;
 
@@ -120,6 +123,24 @@ void ips200_clear (uint16 color)
         }
     }
 
+}
+/******************
+*功能：个人库，局部刷新屏幕
+*参数：xy：显示起始位置，size：字符个数
+*返回值：
+******************/
+void ips200_myclear(uint16 x, uint16 y, uint16 size)
+{
+	uint16 i, j;
+	ips200_set_region(x, y,x+size*FONT_HEIGTH-1,y+size*FONT_WIDTH-1);
+	
+	for(i = x; i < x+size*FONT_WIDTH; i ++)
+    {
+        for (j = y; j < y+size*FONT_HEIGTH; j ++)
+        {
+            ips200_write_16bit_data(RGB565_WHITE);              
+        }
+    }
 }
 
 //-------------------------------------------------------------------------------------------------------------------

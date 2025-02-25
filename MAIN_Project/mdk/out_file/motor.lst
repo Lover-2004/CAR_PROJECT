@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  motor                                                              15/02/25  01:53:51  PAGE 1   
+C251 COMPILER V5.60.0,  motor                                                              25/02/25  20:33:07  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE motor
@@ -15,30 +15,88 @@ stmt  level    source
     4          
     5          void Motor_Init(void)
     6          {
-    7   1              pwm_init(PWM_1, FREQ, 0);                                           // PWM Í¨µÀ1 ³õÊ¼»¯ÆµÂÊ 50Hz  Õ¼¿Õ±È
-             -³õÊ¼Îª 0
-    8   1          pwm_init(PWM_2, FREQ, 0);                                           // PWM Í¨µÀ2 ³õÊ¼»¯ÆµÂÊ 50Hz  Õ¼¿
-             -Õ±È³õÊ¼Îª 0
-    9   1      }
-   10          
-   11          // ¼ÆËãÎÞË¢µçµ÷×ªËÙ   £¨1ms - 2ms£©/20ms * 10000£¨10000ÊÇPWMµÄÂúÕ¼¿Õ±ÈÊ±ºòµÄÖµ£©
-   12          // ÔÚ50HzµÄ¿ØÖÆÆµÂÊÏÂ£¬ÎÞË¢µçµ÷×ªËÙ 0%   Îª 500
-   13          // ÔÚ50HzµÄ¿ØÖÆÆµÂÊÏÂ£¬ÎÞË¢µçµ÷×ªËÙ 20%  Îª 600
-   14          // ÔÚ50HzµÄ¿ØÖÆÆµÂÊÏÂ£¬ÎÞË¢µçµ÷×ªËÙ 40%  Îª 700
-   15          // ÔÚ50HzµÄ¿ØÖÆÆµÂÊÏÂ£¬ÎÞË¢µçµ÷×ªËÙ 60%  Îª 800
-   16          // ÔÚ50HzµÄ¿ØÖÆÆµÂÊÏÂ£¬ÎÞË¢µçµ÷×ªËÙ 80%  Îª 900
-   17          // ÔÚ50HzµÄ¿ØÖÆÆµÂÊÏÂ£¬ÎÞË¢µçµ÷×ªËÙ 100% Îª 1000
-   18          
-   19          // µçµ÷Ö§³Ö50hz-300hzµÄ¿ØÖÆÆµÂÊ
-   20          // 50HzµÄ¿ØÖÆÆµÂÊ £¬´Ó0%µ½100%Õ¼¿Õ±ÈÎª500µ½1000
-   21          // 100HzµÄ¿ØÖÆÆµÂÊ£¬´Ó0%µ½100%Õ¼¿Õ±ÈÎª1000µ½2000
-   22          // 200HzµÄ¿ØÖÆÆµÂÊ£¬´Ó0%µ½100%Õ¼¿Õ±ÈÎª2000µ½4000
-   23          // 300HzµÄ¿ØÖÆÆµÂÊ£¬´Ó0%µ½100%Õ¼¿Õ±ÈÎª3000µ½6000
+    7   1              pwm_init(PWM_Bottom_L, FREQ, 0);   // PWM ³õÊ¼»¯ÆµÂÊ 50Hz  Õ¼¿Õ±È³õÊ¼Îª 0
+    8   1              pwm_init(PWM_Bottom_R, FREQ, 0);   // PWM ³õÊ¼»¯ÆµÂÊ 50Hz  Õ¼¿Õ±È³õÊ¼Îª 0
+    9   1              pwm_init(PWM_Behind_L, FREQ, 0);
+   10   1              pwm_init(PWM_Behind_R, FREQ, 0);
+   11   1              pwm_init(PWM_Around_L, FREQ, 0);
+   12   1              pwm_init(PWM_Around_R, FREQ, 0);
+   13   1      
+   14   1      }
+   15          
+   16          void Motor_BottomLoad(uint32_t duty_bottom)
+   17          {
+   18   1              //Êä³öÏÞ·ù
+   19   1              duty_bottom=duty_bottom>1000?1000:(duty_bottom<500?500:duty_bottom);
+   20   1              
+   21   1              pwm_set_duty(PWM_Bottom_L,duty_bottom);
+   22   1              pwm_set_duty(PWM_Bottom_R,duty_bottom);
+   23   1      }
+   24          
+   25          void Motor_BehindLoad(int32_t left,int32_t right)
+   26          {
+   27   1              
+   28   1              //·½Ïò¿ØÖÆ
+   29   1      //      if(left>=0)
+   30   1      //      {
+   31   1      //              
+   32   1      //      }
+   33   1      //      else
+   34   1      //      {
+   35   1      //              
+   36   1      //      }               
+   37   1      //      if(right>=0)
+   38   1      //      {
+   39   1      //              
+   40   1      //      }
+   41   1      //      else
+   42   1      //      {
+   43   1      //              
+   44   1      //      
+   45   1              //Êä³öÏÞ·ù
+   46   1              left=func_abs(left);
+   47   1              right=func_abs(right);
+   48   1              left = left>1000?1000 : (left<500?500:left);
+   49   1              right = right>1000?1000 : (right<500?500:right);
+   50   1              
+   51   1              pwm_set_duty(PWM_Behind_L,left);
+   52   1              pwm_set_duty(PWM_Behind_R,right);
+   53   1      }
+   54          
+   55          void Motor_AroundLoad(int32_t left,int32_t right)
+   56          {
+   57   1              //if//·½Ïò¿ØÖÆ
+C251 COMPILER V5.60.0,  motor                                                              25/02/25  20:33:07  PAGE 2   
+
+   58   1              
+   59   1              //Êä³öÏÞ·ù
+   60   1              left=func_abs(left);
+   61   1              right=func_abs(right);
+   62   1              left=left>1000?1000:(left<500?500:left);
+   63   1              right=right>1000?1000:(right<500?500:right);
+   64   1              
+   65   1              pwm_set_duty(PWM_Around_L,left);
+   66   1              pwm_set_duty(PWM_Around_R,right);
+   67   1      }
+   68          
+   69          // ¼ÆËãÎÞË¢µçµ÷×ªËÙ   £¨1ms - 2ms£©/20ms * 10000£¨10000ÊÇPWMµÄÂúÕ¼¿Õ±ÈÊ±ºòµÄÖµ£©
+   70          // ÔÚ50HzµÄ¿ØÖÆÆµÂÊÏÂ£¬ÎÞË¢µçµ÷×ªËÙ 0%   Îª 500
+   71          // ÔÚ50HzµÄ¿ØÖÆÆµÂÊÏÂ£¬ÎÞË¢µçµ÷×ªËÙ 20%  Îª 600
+   72          // ÔÚ50HzµÄ¿ØÖÆÆµÂÊÏÂ£¬ÎÞË¢µçµ÷×ªËÙ 40%  Îª 700
+   73          // ÔÚ50HzµÄ¿ØÖÆÆµÂÊÏÂ£¬ÎÞË¢µçµ÷×ªËÙ 60%  Îª 800
+   74          // ÔÚ50HzµÄ¿ØÖÆÆµÂÊÏÂ£¬ÎÞË¢µçµ÷×ªËÙ 80%  Îª 900
+   75          // ÔÚ50HzµÄ¿ØÖÆÆµÂÊÏÂ£¬ÎÞË¢µçµ÷×ªËÙ 100% Îª 1000
+   76          
+   77          // µçµ÷Ö§³Ö50hz-300hzµÄ¿ØÖÆÆµÂÊ
+   78          // 50HzµÄ¿ØÖÆÆµÂÊ £¬´Ó0%µ½100%Õ¼¿Õ±ÈÎª500µ½1000
+   79          // 100HzµÄ¿ØÖÆÆµÂÊ£¬´Ó0%µ½100%Õ¼¿Õ±ÈÎª1000µ½2000
+   80          // 200HzµÄ¿ØÖÆÆµÂÊ£¬´Ó0%µ½100%Õ¼¿Õ±ÈÎª2000µ½4000
+   81          // 300HzµÄ¿ØÖÆÆµÂÊ£¬´Ó0%µ½100%Õ¼¿Õ±ÈÎª3000µ½6000
 
 
 Module Information          Static   Overlayable
 ------------------------------------------------
-  code size            =        46     ------
+  code size            =       429     ------
   ecode size           =    ------     ------
   data size            =    ------     ------
   idata size           =    ------     ------

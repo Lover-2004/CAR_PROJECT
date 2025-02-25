@@ -1,0 +1,78 @@
+C251 COMPILER V5.60.0,  encoder                                                            25/02/25  20:33:09  PAGE 1   
+
+
+C251 COMPILER V5.60.0, COMPILATION OF MODULE encoder
+OBJECT MODULE PLACED IN .\out_file\encoder.obj
+COMPILER INVOKED BY: D:\Keil_v5\C251\BIN\C251.EXE ..\code\encoder.c LARGE NOALIAS FLOAT64 WARNINGLEVEL(3) OPTIMIZE(SIZE)
+                    - BROWSE INCDIR(..\..\libraries\zf_common;..\..\libraries\zf_components;..\..\libraries\zf_device;..\..\libraries\zf_driv
+                    -er;..\user;..\code) DEBUG PRINT(.\out_file\encoder.lst) OBJECT(.\out_file\encoder.obj) 
+
+stmt  level    source
+
+    1          #include "encoder.h"
+    2          
+    3          #define ENCODER_DIR                     (TIM0_ENCOEDER)                         // 正交编码器对应使用的编码器
+             -接口 这里使用QTIMER1的ENCOEDER1
+    4          #define ENCODER_DIR_DIR                 (IO_P35)                                                // DIR 对应的引脚
+    5          #define ENCODER_DIR_PULSE               (TIM0_ENCOEDER_P34)                             // PULSE 对应的引脚
+    6          
+    7          uint32_t encoder_data=0;
+    8          float INS_V=0;  //用在惯导
+    9          
+   10          float low_pass=0.7;
+   11          
+   12          void encoder_Init()
+   13          {
+   14   1              encoder_dir_init(ENCODER_DIR, ENCODER_DIR_DIR, ENCODER_DIR_PULSE);      
+   15   1      }
+   16          
+   17          
+   18          /******************
+   19          *功能：获得编码器值，低通滤波
+   20          *参数：
+   21          *返回值：
+   22          ******************/
+   23          void encoder_get(void)
+   24          {
+   25   1          static uint8_t times=1;
+   26   1          static float encoder_dr=0;
+   27   1          // 有刷电机脉冲计数
+   28   1          encoder_data = encoder_get_count(ENCODER_DIR);
+   29   1          // 编码器 低通滤波
+   30   1          INS_V = INS_V * low_pass + encoder_data * (1 - low_pass);
+   31   1          encoder_dr+=INS_V;
+   32   1          if(times==5){
+   33   2              encoder_data=(uint32_t)encoder_dr;
+   34   2              encoder_dr=0;
+   35   2              times=0;
+   36   2          }
+   37   1          // 清除编码器计数 方便下次采集
+   38   1          encoder_clear_count(ENCODER_DIR);
+   39   1          times++;
+   40   1      }
+
+
+Module Information          Static   Overlayable
+------------------------------------------------
+  code size            =       187     ------
+  ecode size           =    ------     ------
+  data size            =    ------     ------
+  idata size           =    ------     ------
+  pdata size           =    ------     ------
+  xdata size           =        17     ------
+  xdata-const size     =    ------     ------
+  edata size           =    ------     ------
+  bit size             =    ------     ------
+  ebit size            =    ------     ------
+  bitaddressable size  =    ------     ------
+  ebitaddressable size =    ------     ------
+  far data size        =    ------     ------
+C251 COMPILER V5.60.0,  encoder                                                            25/02/25  20:33:09  PAGE 2   
+
+  huge data size       =    ------     ------
+  const size           =    ------     ------
+  hconst size          =        42     ------
+End of Module Information.
+
+
+C251 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

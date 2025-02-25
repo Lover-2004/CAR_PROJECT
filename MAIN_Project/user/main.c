@@ -36,52 +36,42 @@
 #include "sys.h"
 
 // **************************** 代码区域 ****************************
-void pit_handler (void);
+//void pit_handler (void);
 
-int8 menu2;
-
+void sensor_dispaly();
+	
 void main()
 {
-    clock_init(SYSTEM_CLOCK_40M);
+	clock_init(SYSTEM_CLOCK_40M);
 	debug_init();
 
     /*外设初始化*/
 	All_Init();
-	
-	// 设置定时器1中断回调函数
-	tim1_irq_handler = pit_handler;
-	pit_ms_init(PIT_CH, 10);                                                   // 初始化 PIT 为周期中断 10ms 周期
-
+//	Motor_BottomLoad(600);
+//	get_drift();
     while(1)
     {
-		menu2=menu1();
-//		if(menu2 ==1){menu2_motor ();}
-//		if(menu2 ==2){}
-//		if(menu2 ==3){}
-//		if(menu2 ==4){}
-
-//		rocker_read();
-//		printf("rx:%.2f,ry:%.2f,state:%d\n",R_x_val,R_y_val,Rocker_state);
-		
-//		icm20602_get_acc();                 // 获取ICM20602的加速度测量数值
-//		icm20602_get_gyro();                // 获取IMU660RA的角速度测量数值
-//		printf("\r\nICM20602 acc data:  x=%5d, y=%5d, z=%5d\r\n", icm20602_acc_x, icm20602_acc_y, icm20602_acc_z);
-//		printf("\r\nICM20602 gyro data: x=%5d, y=%5d, z=%5d\r\n", icm20602_gyro_x, icm20602_gyro_y, icm20602_gyro_z);
-		
+//		encoder_get();
+//		imu660ra_get_acc();                 // 获取ICM20602的加速度测量数值
+//		imu660ra_get_gyro();                // 获取IMU660RA的角速度测量数值
+//		get_yaw_data(&gyro_z);
+		sensor_dispaly();
+//		Menu_display();
 //		GPS_Display();
-		
 //		CCD_Display();
-//		system_delay_ms(500);
     }
 }
 
-//-------------------------------------------------------------------------------------------------------------------
-// 函数简介     PIT 的周期中断处理函数 这个函数将在 PIT 对应的定时器中断调用 详见 isr.c
-// 参数说明     void
-// 返回参数     void
-// 使用示例     pit_handler();
-//-------------------------------------------------------------------------------------------------------------------
-void pit_handler (void)
-{	
-	tsl1401_collect_pit_handler();
+void sensor_dispaly()
+{
+	ips200_show_string(0, 0*16, "gyro_z1:");
+	ips200_show_float(120, 0*16,(float)imu660ra_gyro_z,5,1);
+	ips200_show_string(0, 1*16, "gyro_z2:");
+	ips200_show_float(120, 1*16,gyro_z,5,1);
+	ips200_show_string(0, 3*16, "encoder:");
+	ips200_show_float(120, 3*16,(float)encoder_data,5,1);
+	ips200_show_string(0, 4*16, "YAW:");
+	ips200_show_float(120, 4*16,(float)YAW,8,3);
+	
+	system_delay_ms(100);
 }

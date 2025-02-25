@@ -1,0 +1,84 @@
+C251 COMPILER V5.60.0,  time                                                               25/02/25  20:33:09  PAGE 1   
+
+
+C251 COMPILER V5.60.0, COMPILATION OF MODULE time
+OBJECT MODULE PLACED IN .\out_file\time.obj
+COMPILER INVOKED BY: D:\Keil_v5\C251\BIN\C251.EXE ..\code\time.c LARGE NOALIAS FLOAT64 WARNINGLEVEL(3) OPTIMIZE(SIZE) BR
+                    -OWSE INCDIR(..\..\libraries\zf_common;..\..\libraries\zf_components;..\..\libraries\zf_device;..\..\libraries\zf_driver;
+                    -..\user;..\code) DEBUG PRINT(.\out_file\time.lst) OBJECT(.\out_file\time.obj) 
+
+stmt  level    source
+
+    1          #include "time.h"
+    2          
+    3          void pit_handler (void);
+    4          Timer1_Flag TFlag1;
+    5          
+    6          void timer_Init()
+    7          {
+    8   1              // 设置定时器1中断回调函数
+    9   1              tim1_irq_handler = pit_handler;
+   10   1              pit_ms_init(PIT_CH, 10);                // 初始化 PIT 为周期中断 2ms 周期
+   11   1      
+   12   1      }
+   13          
+   14          /******************
+   15          *功能：定时器中断入口函数，要先将定时器中断函数指针指向它,这里两毫秒进入一次
+   16          *参数：
+   17          *返回值：
+   18          ******************/
+   19          void pit_handler (void)
+   20          {       
+   21   1              static uint32_t time_sum=0;
+   22   1              time_sum+=10;
+   23   1              if(time_sum%2==0)TFlag1.T_2ms=1;
+   24   1              if(time_sum%4==0)TFlag1.T_4ms=1;
+   25   1              if(time_sum%6==0)TFlag1.T_6ms=1;
+   26   1              if(time_sum%10==0)TFlag1.T_10ms=1;
+   27   1              if(time_sum%20==0)TFlag1.T_20ms=1;
+   28   1              if(time_sum%50==0)TFlag1.T_50ms=1;
+   29   1              
+   30   1              time_sum=time_sum>=0xfffffff0?(time_sum&0x00000111):time_sum;   //溢出检查
+   31   1              Interrupt_Solution();
+   32   1      }
+   33          /******************
+   34          *功能：定时器中断处理函数
+   35          *参数：
+   36          *返回值：
+   37          ******************/
+   38          void Interrupt_Solution()
+   39          {
+   40   1              if(TFlag1.T_10ms)       //10ms中断
+   41   1              {
+   42   2                      get_yaw_data(&gyro_z);
+   43   2                      encoder_get();
+   44   2      //              tsl1401_collect_pit_handler();
+   45   2                      TFlag1.T_10ms=0;
+   46   2              }
+   47   1      }
+
+
+Module Information          Static   Overlayable
+------------------------------------------------
+  code size            =       288     ------
+  ecode size           =    ------     ------
+  data size            =    ------     ------
+  idata size           =    ------     ------
+  pdata size           =    ------     ------
+  xdata size           =        12     ------
+  xdata-const size     =    ------     ------
+C251 COMPILER V5.60.0,  time                                                               25/02/25  20:33:09  PAGE 2   
+
+  edata size           =    ------     ------
+  bit size             =    ------     ------
+  ebit size            =    ------     ------
+  bitaddressable size  =    ------     ------
+  ebitaddressable size =    ------     ------
+  far data size        =    ------     ------
+  huge data size       =    ------     ------
+  const size           =    ------     ------
+  hconst size          =         9     ------
+End of Module Information.
+
+
+C251 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -51,13 +51,19 @@
 
 //数据类型声明
 typedef unsigned char   uint8  ;	//  8 bits
+typedef unsigned char   uint8_t  ;	//  8 bits
 typedef unsigned int  	uint16 ;	// 16 bits
+typedef unsigned int  	uint16_t ;	// 16 bits
 typedef unsigned long  	uint32 ;	// 32 bits
+typedef unsigned long  	uint32_t ;	// 32 bits
 
 
 typedef signed char     int8   ;	//  8 bits
+typedef signed char     int8_t   ;	//  8 bits
 typedef signed int      int16  ;	// 16 bits
+typedef signed int      int16_t  ;	// 16 bits
 typedef signed long     int32  ;	// 32 bits
+typedef signed long     int32_t  ;	// 32 bits
 
 
 typedef volatile int8   vint8  ;	//  8 bits

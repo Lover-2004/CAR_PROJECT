@@ -5,8 +5,6 @@
 
 #pragma warning disable = 177
 
-#define PIT_CH              (TIM1_PIT )             // 使用的周期中断编号 如果修改 需要同步对应修改周期中断编号与 isr.c 中的调用
-
 void CCD_Display(void);
 
 extern uint8 y1_boundary[128];

@@ -295,7 +295,8 @@
             <WarningLevel>2</WarningLevel>
             <DataOverlaying>1</DataOverlaying>
             <OverlayString></OverlayString>
-            <MiscControls>REMOVEUNUSED</MiscControls>
+            <MiscControls>REMOVEUNUSED
+</MiscControls>
             <DisableWarningNumbers>57,16</DisableWarningNumbers>
             <LinkerCmdFile></LinkerCmdFile>
             <Assign></Assign>
@@ -770,11 +771,6 @@
               <FilePath>..\code\rocker.h</FilePath>
             </File>
             <File>
-              <FileName>imu.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\code\imu.h</FilePath>
-            </File>
-            <File>
               <FileName>GPS.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\code\GPS.c</FilePath>
@@ -804,6 +800,56 @@
               <FileType>5</FileType>
               <FilePath>..\code\menu.h</FilePath>
             </File>
+            <File>
+              <FileName>control.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\code\control.c</FilePath>
+            </File>
+            <File>
+              <FileName>control.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\code\control.h</FilePath>
+            </File>
+            <File>
+              <FileName>time.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\code\time.c</FilePath>
+            </File>
+            <File>
+              <FileName>time.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\code\time.h</FilePath>
+            </File>
+            <File>
+              <FileName>encoder.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\code\encoder.c</FilePath>
+            </File>
+            <File>
+              <FileName>encoder.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\code\encoder.h</FilePath>
+            </File>
+            <File>
+              <FileName>valuepack.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\code\valuepack.c</FilePath>
+            </File>
+            <File>
+              <FileName>valuepack.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\code\valuepack.h</FilePath>
+            </File>
+            <File>
+              <FileName>imu660.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\code\imu660.c</FilePath>
+            </File>
+            <File>
+              <FileName>imu660.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\code\imu660.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -813,6 +859,11 @@
               <FileName>version.txt</FileName>
               <FileType>5</FileType>
               <FilePath>..\..\libraries\doc\version.txt</FilePath>
+            </File>
+            <File>
+              <FileName>Readme.txt</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\code\Readme.txt</FilePath>
             </File>
           </Files>
         </Group>

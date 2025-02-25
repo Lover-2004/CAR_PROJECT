@@ -95,6 +95,7 @@ typedef enum
 
 void    ips200_init                     (void);
 void    ips200_clear                    (uint16 color);
+void 	ips200_myclear(uint16 x, uint16 y, uint16 size);
 void    ips200_set_dir                  (ips200_dir_enum dir);
 void    ips200_set_color                (uint16 pen, uint16 bgcolor);
 void    ips200_draw_point               (uint16 x, uint16 y, uint16 color);
