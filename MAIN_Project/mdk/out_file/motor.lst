@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  motor                                                              25/02/25  20:33:07  PAGE 1   
+C251 COMPILER V5.60.0,  motor                                                              28/02/25  00:09:33  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE motor
@@ -11,97 +11,102 @@ stmt  level    source
 
     1          #include "motor.h"
     2          
-    3          uint16 duty = 1.0 / 20 * 10000;                 // (1ms/20ms * 10000)（10000是PWM的满占空比时候的值） 10000为PWM最大值
-    4          
-    5          void Motor_Init(void)
-    6          {
-    7   1              pwm_init(PWM_Bottom_L, FREQ, 0);   // PWM 初始化频率 50Hz  占空比初始为 0
-    8   1              pwm_init(PWM_Bottom_R, FREQ, 0);   // PWM 初始化频率 50Hz  占空比初始为 0
-    9   1              pwm_init(PWM_Behind_L, FREQ, 0);
-   10   1              pwm_init(PWM_Behind_R, FREQ, 0);
-   11   1              pwm_init(PWM_Around_L, FREQ, 0);
-   12   1              pwm_init(PWM_Around_R, FREQ, 0);
-   13   1      
-   14   1      }
-   15          
-   16          void Motor_BottomLoad(uint32_t duty_bottom)
-   17          {
-   18   1              //输出限幅
-   19   1              duty_bottom=duty_bottom>1000?1000:(duty_bottom<500?500:duty_bottom);
-   20   1              
-   21   1              pwm_set_duty(PWM_Bottom_L,duty_bottom);
-   22   1              pwm_set_duty(PWM_Bottom_R,duty_bottom);
-   23   1      }
-   24          
-   25          void Motor_BehindLoad(int32_t left,int32_t right)
-   26          {
-   27   1              
-   28   1              //方向控制
-   29   1      //      if(left>=0)
-   30   1      //      {
-   31   1      //              
-   32   1      //      }
-   33   1      //      else
-   34   1      //      {
-   35   1      //              
-   36   1      //      }               
-   37   1      //      if(right>=0)
-   38   1      //      {
-   39   1      //              
-   40   1      //      }
-   41   1      //      else
-   42   1      //      {
-   43   1      //              
-   44   1      //      
-   45   1              //输出限幅
-   46   1              left=func_abs(left);
-   47   1              right=func_abs(right);
-   48   1              left = left>1000?1000 : (left<500?500:left);
-   49   1              right = right>1000?1000 : (right<500?500:right);
-   50   1              
-   51   1              pwm_set_duty(PWM_Behind_L,left);
-   52   1              pwm_set_duty(PWM_Behind_R,right);
-   53   1      }
-   54          
-   55          void Motor_AroundLoad(int32_t left,int32_t right)
-   56          {
-   57   1              //if//方向控制
-C251 COMPILER V5.60.0,  motor                                                              25/02/25  20:33:07  PAGE 2   
+    3          int32_t speed_base=700;
+    4          int32_t position_out;
+    5          
+    6          uint16 duty = 1.0 / 20 * 10000;                 // (1ms/20ms * 10000)（10000是PWM的满占空比时候的值） 10000为PWM最大值
+    7          
+    8          void Motor_Init(void)
+    9          {
+   10   1              pwm_init(PWM_Bottom_L, FREQ, 0);   // PWM 初始化频率 50Hz  占空比初始为 0
+   11   1              pwm_init(PWM_Bottom_R, FREQ, 0);   // PWM 初始化频率 50Hz  占空比初始为 0
+   12   1              pwm_init(PWM_Behind_L, FREQ, 0);
+   13   1              pwm_init(PWM_Behind_R, FREQ, 0);
+   14   1              pwm_init(PWM_Around_L, FREQ, 0);
+   15   1              pwm_init(PWM_Around_R, FREQ, 0);
+   16   1      
+   17   1      }
+   18          
+   19          void Motor_BottomLoad(uint32_t duty_bottom)
+   20          {
+   21   1              //输出限幅
+   22   1              duty_bottom=duty_bottom>1000?1000:(duty_bottom<500?500:duty_bottom);
+   23   1              
+   24   1              pwm_set_duty(PWM_Bottom_L,duty_bottom);
+   25   1              pwm_set_duty(PWM_Bottom_R,duty_bottom);
+   26   1      }
+   27          
+   28          void Motor_BehindLoad(int32_t left,int32_t right)
+   29          {
+   30   1              
+   31   1              //方向控制
+   32   1      //      if(left>=0)
+   33   1      //      {
+   34   1      //              
+   35   1      //      }
+   36   1      //      else
+   37   1      //      {
+   38   1      //              
+   39   1      //      }               
+   40   1      //      if(right>=0)
+   41   1      //      {
+   42   1      //              
+   43   1      //      }
+   44   1      //      else
+   45   1      //      {
+   46   1       
+   47   1              left = speed_base + position_out;
+   48   1              right = speed_base - position_out;
+   49   1              
+   50   1              //输出限幅
+   51   1              left=func_abs(left);
+   52   1              right=func_abs(right);
+   53   1              left = left>1000?1000 : (left<500?500:left);
+   54   1              right = right>1000?1000 : (right<500?500:right);
+   55   1              
+   56   1              pwm_set_duty(PWM_Behind_L,left);
+   57   1              pwm_set_duty(PWM_Behind_R,right);
+C251 COMPILER V5.60.0,  motor                                                              28/02/25  00:09:33  PAGE 2   
 
-   58   1              
-   59   1              //输出限幅
-   60   1              left=func_abs(left);
-   61   1              right=func_abs(right);
-   62   1              left=left>1000?1000:(left<500?500:left);
-   63   1              right=right>1000?1000:(right<500?500:right);
-   64   1              
-   65   1              pwm_set_duty(PWM_Around_L,left);
-   66   1              pwm_set_duty(PWM_Around_R,right);
-   67   1      }
-   68          
-   69          // 计算无刷电调转速   （1ms - 2ms）/20ms * 10000（10000是PWM的满占空比时候的值）
-   70          // 在50Hz的控制频率下，无刷电调转速 0%   为 500
-   71          // 在50Hz的控制频率下，无刷电调转速 20%  为 600
-   72          // 在50Hz的控制频率下，无刷电调转速 40%  为 700
-   73          // 在50Hz的控制频率下，无刷电调转速 60%  为 800
-   74          // 在50Hz的控制频率下，无刷电调转速 80%  为 900
-   75          // 在50Hz的控制频率下，无刷电调转速 100% 为 1000
-   76          
-   77          // 电调支持50hz-300hz的控制频率
-   78          // 50Hz的控制频率 ，从0%到100%占空比为500到1000
-   79          // 100Hz的控制频率，从0%到100%占空比为1000到2000
-   80          // 200Hz的控制频率，从0%到100%占空比为2000到4000
-   81          // 300Hz的控制频率，从0%到100%占空比为3000到6000
+   58   1      }
+   59          
+   60          void Motor_AroundLoad(int32_t left,int32_t right)
+   61          {
+   62   1              //if//方向控制
+   63   1              
+   64   1              //输出限幅
+   65   1              left=func_abs(left);
+   66   1              right=func_abs(right);
+   67   1              left=left>1000?1000:(left<500?500:left);
+   68   1              right=right>1000?1000:(right<500?500:right);
+   69   1              
+   70   1              pwm_set_duty(PWM_Around_L,left);
+   71   1              pwm_set_duty(PWM_Around_R,right);
+   72   1      }
+   73          
+   74          // 计算无刷电调转速   （1ms - 2ms）/20ms * 10000（10000是PWM的满占空比时候的值）
+   75          // 在50Hz的控制频率下，无刷电调转速 0%   为 500
+   76          // 在50Hz的控制频率下，无刷电调转速 20%  为 600
+   77          // 在50Hz的控制频率下，无刷电调转速 40%  为 700
+   78          // 在50Hz的控制频率下，无刷电调转速 60%  为 800
+   79          // 在50Hz的控制频率下，无刷电调转速 80%  为 900
+   80          // 在50Hz的控制频率下，无刷电调转速 100% 为 1000
+   81          
+   82          // 电调支持50hz-300hz的控制频率
+   83          // 50Hz的控制频率 ，从0%到100%占空比为500到1000
+   84          // 100Hz的控制频率，从0%到100%占空比为1000到2000
+   85          // 200Hz的控制频率，从0%到100%占空比为2000到4000
+   86          // 300Hz的控制频率，从0%到100%占空比为3000到6000
 
 
 Module Information          Static   Overlayable
 ------------------------------------------------
-  code size            =       429     ------
+  code size            =       451     ------
   ecode size           =    ------     ------
   data size            =    ------     ------
   idata size           =    ------     ------
   pdata size           =    ------     ------
-  xdata size           =         2     ------
+  xdata size           =        10     ------
   xdata-const size     =    ------     ------
   edata size           =    ------     ------
   bit size             =    ------     ------
@@ -111,7 +116,7 @@ Module Information          Static   Overlayable
   far data size        =    ------     ------
   huge data size       =    ------     ------
   const size           =    ------     ------
-  hconst size          =         7     ------
+  hconst size          =        16     ------
 End of Module Information.
 
 

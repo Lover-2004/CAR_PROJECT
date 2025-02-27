@@ -47,7 +47,7 @@ void main()
 
     /*外设初始化*/
 	All_Init();
-//	Motor_BottomLoad(600);
+
 //	get_drift();
     while(1)
     {
@@ -55,8 +55,8 @@ void main()
 //		imu660ra_get_acc();                 // 获取ICM20602的加速度测量数值
 //		imu660ra_get_gyro();                // 获取IMU660RA的角速度测量数值
 //		get_yaw_data(&gyro_z);
-		sensor_dispaly();
-//		Menu_display();
+//		sensor_dispaly();
+		Menu_display();
 //		GPS_Display();
 //		CCD_Display();
     }

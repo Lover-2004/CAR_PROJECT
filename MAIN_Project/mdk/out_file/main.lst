@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  main                                                               25/02/25  20:33:06  PAGE 1   
+C251 COMPILER V5.60.0,  main                                                               28/02/25  00:10:04  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE main
@@ -60,18 +60,18 @@ stmt  level    source
    47   1      
    48   1          /*外设初始化*/
    49   1              All_Init();
-   50   1      //      Motor_BottomLoad(600);
+   50   1      
    51   1      //      get_drift();
    52   1          while(1)
    53   1          {
    54   2      //              encoder_get();
    55   2      //              imu660ra_get_acc();                 // 获取ICM20602的加速度测量数值
-C251 COMPILER V5.60.0,  main                                                               25/02/25  20:33:06  PAGE 2   
+C251 COMPILER V5.60.0,  main                                                               28/02/25  00:10:04  PAGE 2   
 
    56   2      //              imu660ra_get_gyro();                // 获取IMU660RA的角速度测量数值
    57   2      //              get_yaw_data(&gyro_z);
-   58   2                      sensor_dispaly();
-   59   2      //              Menu_display();
+   58   2      //              sensor_dispaly();
+   59   2                      Menu_display();
    60   2      //              GPS_Display();
    61   2      //              CCD_Display();
    62   2          }

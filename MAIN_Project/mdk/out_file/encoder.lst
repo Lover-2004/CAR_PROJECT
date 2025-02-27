@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  encoder                                                            25/02/25  20:33:09  PAGE 1   
+C251 COMPILER V5.60.0,  encoder                                                            28/02/25  00:09:34  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE encoder
@@ -67,7 +67,7 @@ Module Information          Static   Overlayable
   bitaddressable size  =    ------     ------
   ebitaddressable size =    ------     ------
   far data size        =    ------     ------
-C251 COMPILER V5.60.0,  encoder                                                            25/02/25  20:33:09  PAGE 2   
+C251 COMPILER V5.60.0,  encoder                                                            28/02/25  00:09:34  PAGE 2   
 
   huge data size       =    ------     ------
   const size           =    ------     ------

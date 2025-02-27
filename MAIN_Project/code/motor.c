@@ -1,5 +1,8 @@
 #include "motor.h"
 
+int32_t speed_base=700;
+int32_t position_out;
+
 uint16 duty = 1.0 / 20 * 10000;			// (1ms/20ms * 10000)（10000是PWM的满占空比时候的值） 10000为PWM最大值
 
 void Motor_Init(void)
@@ -40,8 +43,10 @@ void Motor_BehindLoad(int32_t left,int32_t right)
 //	}
 //	else
 //	{
-//		
-//	
+ 
+	left = speed_base + position_out;
+	right = speed_base - position_out;
+	
 	//输出限幅
 	left=func_abs(left);
 	right=func_abs(right);

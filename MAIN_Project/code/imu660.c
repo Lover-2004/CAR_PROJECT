@@ -2,12 +2,13 @@
 
 float zero_drift_pitch=-1.1,zero_drift_roll=0,zero_drift_yaw=-13.65340;
 float gyro_x,gyro_y,gyro_z;
+float gz_out;
 float PITCH=0,ROLL=0,YAW=0;
 double yaw_e=0.00059809;
 //10910,32947,43825
 //10845,21974,32184,42743
 
-void get_yaw_data(float* gyro_z)  
+void get_yaw_data(float* gyro_z)  //¼ÆËãÆ«º½½Ç
 {
 	short gyro_yaw;
 	static int32_t gyro_z_sum=0;
@@ -23,7 +24,7 @@ void get_yaw_data(float* gyro_z)
 	
 }
 
-void get_drift()		//¼ÆËãÆ«º½½Ç
+void get_drift()		
 {
 	int32_t drift_sum=0;
 //	short gyro_yaw;
@@ -34,7 +35,7 @@ void get_drift()		//¼ÆËãÆ«º½½Ç
 		imu660ra_get_gyro();
 //		gyro_yaw=imu660ra_gyro_z;
 		drift_sum+=imu660ra_gyro_z;
-		system_delay_ms(10);
+		system_delay_ms(1);
 	}
 	zero_drift_yaw=(float)drift_sum/5000;
 	ips200_show_string(0, 16*16, "drift:");

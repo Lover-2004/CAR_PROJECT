@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  imu660                                                             25/02/25  20:33:10  PAGE 1   
+C251 COMPILER V5.60.0,  imu660                                                             28/02/25  00:09:35  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE imu660
@@ -13,46 +13,47 @@ stmt  level    source
     2          
     3          float zero_drift_pitch=-1.1,zero_drift_roll=0,zero_drift_yaw=-13.65340;
     4          float gyro_x,gyro_y,gyro_z;
-    5          float PITCH=0,ROLL=0,YAW=0;
-    6          double yaw_e=0.00059809;
-    7          //10910,32947,43825
-    8          //10845,21974,32184,42743
-    9          
-   10          void get_yaw_data(float* gyro_z)  
-   11          {
-   12   1              short gyro_yaw;
-   13   1              static int32_t gyro_z_sum=0;
-   14   1              imu660ra_get_gyro();
-   15   1              gyro_yaw=imu660ra_gyro_z;
-   16   1              gyro_yaw-=zero_drift_yaw;
-   17   1              *gyro_z=-(float)gyro_yaw;
-   18   1              gyro_z_sum+=gyro_yaw;
-   19   1              gyro_z_sum=gyro_z_sum>150478*2?-150478*4+gyro_z_sum:(gyro_z_sum<-150478*2?150478*4+gyro_z_sum:gyro_z_sum
+    5          float gz_out;
+    6          float PITCH=0,ROLL=0,YAW=0;
+    7          double yaw_e=0.00059809;
+    8          //10910,32947,43825
+    9          //10845,21974,32184,42743
+   10          
+   11          void get_yaw_data(float* gyro_z)  //¼ÆËãÆ«º½½Ç
+   12          {
+   13   1              short gyro_yaw;
+   14   1              static int32_t gyro_z_sum=0;
+   15   1              imu660ra_get_gyro();
+   16   1              gyro_yaw=imu660ra_gyro_z;
+   17   1              gyro_yaw-=zero_drift_yaw;
+   18   1              *gyro_z=-(float)gyro_yaw;
+   19   1              gyro_z_sum+=gyro_yaw;
+   20   1              gyro_z_sum=gyro_z_sum>150478*2?-150478*4+gyro_z_sum:(gyro_z_sum<-150478*2?150478*4+gyro_z_sum:gyro_z_sum
              -);
-   20   1              YAW=gyro_z_sum*yaw_e;
-   21   1              YAW=-YAW;
-   22   1      //      YAW=gyro_z_sum;
-   23   1              
-   24   1      }
-   25          
-   26          void get_drift()                //¼ÆËãÆ«º½½Ç
-   27          {
-   28   1              int32_t drift_sum=0;
-   29   1      //      short gyro_yaw;
-   30   1              
-   31   1              uint32_t i=0;
-   32   1              for(i=0;i<5000;i++)
-   33   1              {
-   34   2                      imu660ra_get_gyro();
-   35   2      //              gyro_yaw=imu660ra_gyro_z;
-   36   2                      drift_sum+=imu660ra_gyro_z;
-   37   2                      system_delay_ms(10);
-   38   2              }
-   39   1              zero_drift_yaw=(float)drift_sum/5000;
-   40   1              ips200_show_string(0, 16*16, "drift:");
-   41   1              ips200_show_float(120, 16*16,(float)zero_drift_yaw,5,5);
-   42   1      //      printf2("drift:%f",zero_drift_yaw);
-   43   1      }
+   21   1              YAW=gyro_z_sum*yaw_e;
+   22   1              YAW=-YAW;
+   23   1      //      YAW=gyro_z_sum;
+   24   1              
+   25   1      }
+   26          
+   27          void get_drift()                
+   28          {
+   29   1              int32_t drift_sum=0;
+   30   1      //      short gyro_yaw;
+   31   1              
+   32   1              uint32_t i=0;
+   33   1              for(i=0;i<5000;i++)
+   34   1              {
+   35   2                      imu660ra_get_gyro();
+   36   2      //              gyro_yaw=imu660ra_gyro_z;
+   37   2                      drift_sum+=imu660ra_gyro_z;
+   38   2                      system_delay_ms(1);
+   39   2              }
+   40   1              zero_drift_yaw=(float)drift_sum/5000;
+   41   1              ips200_show_string(0, 16*16, "drift:");
+   42   1              ips200_show_float(120, 16*16,(float)zero_drift_yaw,5,5);
+   43   1      //      printf2("drift:%f",zero_drift_yaw);
+   44   1      }
 
 
 Module Information          Static   Overlayable
@@ -62,13 +63,13 @@ Module Information          Static   Overlayable
   data size            =    ------     ------
   idata size           =    ------     ------
   pdata size           =    ------     ------
-  xdata size           =        48          4
+  xdata size           =        52          4
   xdata-const size     =    ------     ------
   edata size           =    ------     ------
   bit size             =    ------     ------
-  ebit size            =    ------     ------
-C251 COMPILER V5.60.0,  imu660                                                             25/02/25  20:33:10  PAGE 2   
+C251 COMPILER V5.60.0,  imu660                                                             28/02/25  00:09:35  PAGE 2   
 
+  ebit size            =    ------     ------
   bitaddressable size  =    ------     ------
   ebitaddressable size =    ------     ------
   far data size        =    ------     ------
